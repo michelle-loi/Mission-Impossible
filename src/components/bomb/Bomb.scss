@@ -65,7 +65,16 @@ $bomb-color: #1e1f1e;
 
 .bomb__modal-btn {
   position: absolute;
-  top: 0;
+  top: 10%;
+  right: 11%;
+  border: none;
+}
+
+.modal-btn__img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  object-position: center center;
 }
 
 // Before these transforms all the faces are shifted backwards on the Z-plane by half of the bombs depth
