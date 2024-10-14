@@ -1,0 +1,16 @@
+.toggle {
+  display: flex;
+  flex-direction: column;
+  color: #fafafa;
+  gap: 1rem;
+  border: 1px solid #333333;
+  padding: 2rem;
+}
+
+.toggle__label {
+  font-size: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
