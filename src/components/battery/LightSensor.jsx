@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Battery from './Battery.jsx';
-
+import './LightSensor.scss';
 /**
  * https://deanhume.com/ambient-light-sensor/
  * https://developer.mozilla.org/en-US/docs/Web/API/AmbientLightSensor
@@ -44,8 +44,21 @@ const LightSensor = () => {
   }, []);
 
   return (
-    <div>
-      <Battery lux={lux} />
+    <div className="light-sensor">
+      <div className="battery-container">
+        <div className="battery-cell">
+          <Battery lux={lux} />
+          <div className="battery-indicator battery-indicator-1"></div>
+        </div>
+        <div className="battery-cell">
+          <Battery lux={lux} />
+          <div className="battery-indicator battery-indicator-2"></div>
+        </div>
+        <div className="battery-cell">
+          <Battery lux={lux} />
+          <div className="battery-indicator battery-indicator-3"></div>
+        </div>
+      </div>
     </div>
   );
 };

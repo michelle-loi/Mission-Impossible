@@ -1,0 +1,51 @@
+@import './_variables';
+
+$battery-container-gap: 20px;
+$battery-container-extra-space: 60px;
+
+.light-sensor {
+  border: 1px solid #d0c5c5;
+  height: calc(
+    $battery-width + $positive-width + $battery-container-extra-space
+  );
+  width: calc(
+    $battery-height * 3 + $battery-container-gap * 2 +
+      $battery-container-extra-space
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.battery-container {
+  transform: rotate(-90deg);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.battery-container > :nth-child(2) {
+  transform: rotate(-180deg);
+}
+
+.battery-cell {
+  position: relative;
+}
+
+.battery-indicator {
+  position: absolute;
+  width: 10px;
+  height: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: red;
+}
+
+.battery-indicator-1,
+.battery-indicator-3 {
+  left: calc($battery-container-extra-space * -1);
+}
+
+.battery-indicator-2 {
+  left: calc($battery-width + $positive-height);
+}

@@ -1,15 +1,8 @@
-$battery-width: 300px;
-$battery-body-height: 125px;
-$battery-body-gap: 5px;
-$battery-body-padding: 10px;
-$positive-width: 20px;
-$positive-height: 50px;
-$positive-border-radius: 5px;
-$num-fills: 5;
+@import './_variables';
 
 .battery {
   border: 1px solid #d0c5c5;
-  height: $battery-body-height;
+  height: $battery-height;
   width: $battery-width;
   background-color: #333333;
   border-radius: 10px;
@@ -35,7 +28,7 @@ $num-fills: 5;
 }
 
 .battery__fill {
-  height: calc($battery-body-height - ($battery-body-padding * 2));
+  height: calc($battery-height - ($battery-body-padding * 2));
   background-color: rgba(250, 250, 250, 1);
   width: calc($battery-width / $num-fills - $battery-body-gap);
   opacity: 0;
