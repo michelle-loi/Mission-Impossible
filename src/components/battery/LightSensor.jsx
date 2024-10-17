@@ -99,25 +99,27 @@ const LightSensor = () => {
   };
 
   return (
-    <div className="light-sensor">
-      <div className="battery-container">
-        <div className="battery-cell" onClick={() => clickHandler(1)}>
-          <Battery lux={lux1} animate={batteryNum === 1} />
-          <div
-            className={`battery-indicator battery-indicator-1 ${lux1 >= 1000 ? 'battery-indicator-charged' : ''}`}
-          ></div>
-        </div>
-        <div className="battery-cell" onClick={() => clickHandler(2)}>
-          <Battery lux={lux2} animate={batteryNum === 2} />
-          <div
-            className={`battery-indicator battery-indicator-2 ${lux2 >= 1000 ? 'battery-indicator-charged' : ''}`}
-          ></div>
-        </div>
-        <div className="battery-cell" onClick={() => clickHandler(3)}>
-          <Battery lux={lux3} animate={batteryNum === 3} />
-          <div
-            className={`battery-indicator battery-indicator-3 ${lux3 >= 1000 ? 'battery-indicator-charged' : ''}`}
-          ></div>
+    <div className="light-sensor-container">
+      <div className="light-sensor">
+        <div className="battery-container">
+          <div className="battery-cell" onClick={() => clickHandler(1)}>
+            <Battery lux={lux1} animate={batteryNum === 1} />
+            <div
+              className={`battery-indicator battery-indicator-1 ${lux1 >= 1000 ? 'battery-indicator-charged' : ''}`}
+            ></div>
+          </div>
+          <div className="battery-cell" onClick={() => clickHandler(2)}>
+            <Battery lux={lux2} animate={batteryNum === 2} />
+            <div
+              className={`battery-indicator battery-indicator-2 ${lux2 >= 1000 ? 'battery-indicator-charged' : ''}`}
+            ></div>
+          </div>
+          <div className="battery-cell" onClick={() => clickHandler(3)}>
+            <Battery lux={lux3} animate={batteryNum === 3} />
+            <div
+              className={`battery-indicator battery-indicator-3 ${lux3 >= 1000 ? 'battery-indicator-charged' : ''}`}
+            ></div>
+          </div>
         </div>
       </div>
     </div>
