@@ -1,8 +1,8 @@
 import './Modal.scss';
 
-const Modal = ({ children, closeModal, styles }) => {
+const Modal = ({ children, closeModal }) => {
   return (
-    <div className="modal-container" style={{ ...styles }}>
+    <div className="modal-container">
       <button className="modal__set-btn" onClick={closeModal}>
         Set
       </button>
