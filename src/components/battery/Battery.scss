@@ -64,3 +64,19 @@
   background-color: rgb(100, 201, 8);
   box-shadow: 0 0 15px 0 rgba(101, 201, 8, 0.9);
 }
+
+.battery--animate {
+  animation: beat 1s infinite;
+}
+
+@keyframes beat {
+  0% {
+    box-shadow: 0 0 20px 5px rgba(45, 255, 196, 0.9);
+  }
+  50% {
+    box-shadow: 0 0 20px 8px rgba(45, 255, 196, 0.9);
+  }
+  100% {
+    box-shadow: 0 0 20px 5px rgba(45, 255, 196, 0.9);
+  }
+}

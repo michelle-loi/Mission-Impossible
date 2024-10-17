@@ -1,6 +1,6 @@
 import './Battery.scss';
 
-const Battery = ({ lux = 0 }) => {
+const Battery = ({ lux = 0, animate = false }) => {
   const getBatteryColor = (lux) => {
     if (lux >= 5000) return 'fill--green';
     if (lux >= 4000) return 'fill--lime';
@@ -11,7 +11,7 @@ const Battery = ({ lux = 0 }) => {
   };
 
   return (
-    <div className="battery">
+    <div className={`battery ${animate ? ' battery--animate' : ''}`}>
       <div className="battery__body">
         {Array.from({ length: 5 }, (_, index) => {
           const threshold = (index + 1) * 1000;
