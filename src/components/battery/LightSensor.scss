@@ -8,6 +8,8 @@ $battery-container-extra-space: 60px;
   height: 100%;
   display: grid;
   place-content: center;
+  background: url('../../assets/circuit.png') no-repeat center center;
+  background-size: cover;
 }
 
 .light-sensor {
