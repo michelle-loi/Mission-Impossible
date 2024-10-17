@@ -42,20 +42,25 @@
 
 .fill--red {
   background-color: rgb(255, 0, 0);
+  box-shadow: 0 0 15px 0 rgba(255, 0, 0, 0.9);
 }
 
 .fill--orange {
   background-color: rgb(255, 106, 0);
+  box-shadow: 0 0 15px 0 rgba(255, 106, 0, 0.9);
 }
 
 .fill--yellow {
   background-color: rgb(255, 184, 0);
+  box-shadow: 0 0 15px 0 rgba(255, 183, 0, 0.9);
 }
 
 .fill--lime {
   background-color: rgb(145, 232, 66);
+  box-shadow: 0 0 15px 0 rgba(146, 232, 66, 0.9);
 }
 
 .fill--green {
   background-color: rgb(100, 201, 8);
+  box-shadow: 0 0 15px 0 rgba(101, 201, 8, 0.9);
 }
