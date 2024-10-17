@@ -1,12 +1,12 @@
 import './Modal.scss';
 
-const Modal = ({ children, closeModal }) => {
+const Modal = ({ children, closeModal, styles }) => {
   return (
-    <div className="modal-container">
-      <div>
-        <button onClick={closeModal}>Close</button>
-        {children}
-      </div>
+    <div className="modal-container" style={{ ...styles }}>
+      <button className="modal__set-btn" onClick={closeModal}>
+        Set
+      </button>
+      {children}
     </div>
   );
 };
