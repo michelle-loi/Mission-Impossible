@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import Battery from './Battery.jsx';
 import './LightSensor.scss';
-import batteryResetSFX from '../../assets/battery-reset.mp3';
 import batteryStartSFX from '../../assets/battery-start.mp3';
+import batteryDoneSFX from '../../assets/battery-done.mp3';
 import { playAudio } from '../../utils/useAudio.jsx';
 
 /**
@@ -12,15 +12,20 @@ import { playAudio } from '../../utils/useAudio.jsx';
  * @constructor
  */
 const LightSensor = () => {
+  // Stores the lux values for each battery
   const [lux1, setLux1] = useState(-1);
   const [lux2, setLux2] = useState(-1);
   const [lux3, setLux3] = useState(-1);
 
+  // tracks the battery the user is interacting with
   const [batteryNum, setBatteryNum] = useState(-1);
 
   useEffect(() => {
     let sensor;
 
+    /**
+     * Determines which battery to show luminance change for
+     */
     const handleLuminance = () => {
       switch (batteryNum) {
         case 1:
@@ -64,11 +69,18 @@ const LightSensor = () => {
   }, [batteryNum]);
 
   const clickHandler = (battery) => {
+    // If the battery is clicked on again we can play the done sound
+    // This lets the user know they are done
     if (battery === batteryNum) {
       setBatteryNum(-1);
-      playAudio(new Audio(batteryStartSFX), 0.8, 0.006);
+      playAudio(new Audio(batteryDoneSFX), 0.8, 0.02);
+
+      // When the battery is clicked for charging
     } else {
-      playAudio(new Audio(batteryResetSFX), 0.8, 0.006);
+      playAudio(new Audio(batteryStartSFX), 0.8, 0.006);
+
+      // When the user clicks on a battery reset its lux value and then
+      // allow them to set it
       switch (battery) {
         case 1:
           setLux1(-1);
@@ -83,7 +95,6 @@ const LightSensor = () => {
           break;
       }
       setBatteryNum(battery);
-      console.log(`Clicked: ${battery}`);
     }
   };
 
