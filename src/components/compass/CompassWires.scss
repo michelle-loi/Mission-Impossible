@@ -116,12 +116,6 @@
   --drop-timing: 4.7s;
 }
 
-.compass-wires-compass {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
 .light-drop-container {
   height: 100%;
   position: relative;
@@ -173,4 +167,37 @@
 
 .resistor-6 {
   top: 4%;
+}
+
+.compass-wires-compass {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.resistor-overheat {
+  animation: overheat 1s infinite;
+}
+
+@keyframes overheat {
+  0% {
+    filter: drop-shadow(0 0 0.25rem crimson) drop-shadow(0 0 0.75rem lightcoral)
+      drop-shadow(0 0 1rem #ff002d);
+  }
+  50% {
+    filter: drop-shadow(0 0 0.75rem crimson) drop-shadow(0 0 1.5rem lightcoral)
+      drop-shadow(0 0 2rem #ff002d);
+  }
+  100% {
+    filter: drop-shadow(0 0 0.25rem crimson) drop-shadow(0 0 0.75rem lightcoral)
+      drop-shadow(0 0 1rem #ff002d);
+  }
+}
+
+// Used to test the heading values remove later
+.resistor-setting-test {
+  color: white;
+  position: absolute;
+  z-index: -1;
 }
