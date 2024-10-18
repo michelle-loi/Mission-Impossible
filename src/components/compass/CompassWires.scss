@@ -1,5 +1,4 @@
 .compass-wires-container {
-  --drop-timing: 1s;
   --wire-width: 1vw;
   --min-wire-width: 10px;
   --max-wire-width: 15px;
@@ -47,6 +46,8 @@
 }
 
 .light-drop {
+  --drop-timing: 1s;
+
   position: absolute;
   top: -10%; // position above the viewport
   width: 100%;
