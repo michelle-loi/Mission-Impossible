@@ -1,0 +1,115 @@
+.compass-wires-container {
+  --drop-timing: 1s;
+
+  width: 100%;
+  height: 100%;
+  background: url('../../assets/circuit.png') no-repeat center center;
+  background-size: cover;
+}
+
+.compass-wires {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.wire {
+  width: 10px;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.wire1,
+.wire5 {
+  background: linear-gradient(to right, darkred, red, darkred);
+}
+
+.wire2 {
+  background: linear-gradient(to right, darkblue, blue, darkblue);
+}
+
+.wire3,
+.wire6 {
+  background: linear-gradient(to right, #044f23, #04913f, #044f23);
+}
+
+.wire4 {
+  background: linear-gradient(to right, #7a6502, #ffff00, #7a6502);
+}
+
+.light-drop {
+  position: absolute;
+  top: -10%; // position above the viewport
+  width: 100%;
+  height: 25px;
+  background: rgb(231, 254, 254);
+  background: radial-gradient(
+    circle,
+    rgba(231, 254, 254, 0.9) 0%,
+    rgba(244, 244, 244, 0.9) 100%
+  );
+  //Glow
+  box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.7);
+
+  // drop animation
+  animation:
+    drop var(--drop-timing) ease-in-out infinite,
+    glow var(--drop-timing) ease-in-out infinite;
+}
+
+@keyframes drop {
+  0% {
+    top: -10%; // starting point
+  }
+  100% {
+    top: 110%; // offscreen
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 30px 15px rgba(255, 255, 255, 1);
+  }
+}
+
+.light-drop-1 {
+  animation-delay: 1s;
+  --drop-timing: 3s;
+}
+
+.light-drop-2 {
+  //animation-delay: 1s;
+  --drop-timing: 4.8s;
+}
+
+.light-drop-3 {
+  animation-delay: 2.5s;
+  --drop-timing: 3.2s;
+}
+
+.light-drop-4 {
+  animation-delay: 3.4s;
+  --drop-timing: 3.2s;
+}
+
+.light-drop-5 {
+  animation-delay: 1.5s;
+  --drop-timing: 3.5s;
+}
+
+.light-drop-6 {
+  animation-delay: 3s;
+  --drop-timing: 4.7s;
+}
+
+.compass-wires-compass {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
