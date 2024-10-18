@@ -7,8 +7,8 @@ import compassImg from '../../assets/compass2.png';
  * https://dev.to/orkhanjafarovr/real-compass-on-mobile-browsers-with-javascript-3emi
  * https://developer.mozilla.org/en-US/docs/Web/API/Window/deviceorientationabsolute_event
  */
-const Compass = () => {
-  const [heading, setHeading] = useState(0);
+const Compass = ({ heading = 0, setHeading }) => {
+  // const [heading, setHeading] = useState(0);
   const [permissionGranted, setPermissionGranted] = useState(false);
 
   // Checks for iOS devices
