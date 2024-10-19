@@ -23,9 +23,8 @@ const CompassWires = () => {
       // Finalize the resistor (store its value)
       if (heading !== null) {
         // Update the resistors, keep only the last 3
-        const roundHeading = heading.toFixed(0);
         setResistorsSelected((prev) => {
-          const newResistors = [...prev, { resistorId, heading: roundHeading }];
+          const newResistors = [...prev, { resistorId, heading }];
           if (newResistors.length > 3) {
             newResistors.shift(); // remove the oldest entry (it's a queue!!!!!)
           }

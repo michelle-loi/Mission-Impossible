@@ -32,8 +32,8 @@ const Compass = ({ heading = 0, setHeading }) => {
         let compassValue = event.webkitCompassHeading || event.alpha;
 
         // if there is a value set it.
-        if (event.alpha !== null) {
-          setHeading(event.alpha);
+        if (compassValue !== null) {
+          setHeading(Math.floor(compassValue));
 
           // alert to error
         } else {
@@ -88,7 +88,7 @@ const Compass = ({ heading = 0, setHeading }) => {
             alt=""
             style={{ transform: `rotate(${-heading}deg)` }}
           />
-          <div className="compass__heading">{`${heading.toFixed(0)}°`}</div>
+          <div className="compass__heading">{`${heading}°`}</div>
         </div>
       ) : (
         <div className="compass--hide">
