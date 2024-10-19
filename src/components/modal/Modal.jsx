@@ -1,6 +1,8 @@
 import './Modal.scss';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect } from 'react';
+import { playAudio } from '../../utils/useAudio.jsx';
+import clickSFX from '../../assets/click.mp3';
 
 const Modal = ({ children, closeModal, isVisible = false }) => {
   // handles modal animation
@@ -21,6 +23,11 @@ const Modal = ({ children, closeModal, isVisible = false }) => {
     },
   };
 
+  const handleClick = () => {
+    closeModal();
+    playAudio(new Audio(clickSFX), 1, 0);
+  };
+
   return (
     <AnimatePresence>
       {isVisible && (
@@ -32,7 +39,7 @@ const Modal = ({ children, closeModal, isVisible = false }) => {
           exit="closed"
           key={'modal-framer-motion-key'}
         >
-          <button className="modal__set-btn" onClick={closeModal}>
+          <button className="modal__set-btn" onClick={handleClick}>
             Set
           </button>
           {children}
