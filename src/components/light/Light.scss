@@ -23,6 +23,7 @@ $min-light-size: 25px;
     0 0 150px rgba(255, 0, 0, 1),
     0 0 200px rgba(255, 0, 0, 1);
   animation: lightFlicker 3s infinite;
+  user-select: none;
 }
 
 @keyframes lightFlicker {

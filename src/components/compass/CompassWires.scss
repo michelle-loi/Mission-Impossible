@@ -25,6 +25,7 @@
   height: 100%;
   position: relative;
   width: var(--calculate-wire-width);
+  user-select: none;
 }
 
 .wire1 {

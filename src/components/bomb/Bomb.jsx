@@ -30,44 +30,99 @@ const Bomb = ({ side, setPuzzleNum }) => {
       <div className="bomb-scene">
         <div className={`bomb show-${side}`}>
           <div className="bomb__face bomb__face--front">
-            <img src={bombFront} alt="" className="bomb__img" />
+            <img
+              src={bombFront}
+              alt=""
+              className="bomb__img"
+              draggable={false}
+            />
             <button className="bomb__modal-btn" onClick={() => handleClick(1)}>
-              <img className="modal-btn__img" src={key1} alt="" />
+              <img
+                className="modal-btn__img"
+                src={key1}
+                alt=""
+                draggable={false}
+              />
             </button>
             <Light />
           </div>
           <div className="bomb__face bomb__face--back">
-            <img src={bombBack} alt="" className="bomb__img" />
+            <img
+              src={bombBack}
+              alt=""
+              className="bomb__img"
+              draggable={false}
+            />
             <button className="bomb__modal-btn" onClick={() => handleClick(2)}>
-              <img className="modal-btn__img" src={key2} alt="" />
+              <img
+                className="modal-btn__img"
+                src={key2}
+                alt=""
+                draggable={false}
+              />
             </button>
             <Light />
           </div>
           <div className="bomb__face bomb__face--right">
-            <img src={bombSide} alt="" className="bomb__img" />
+            <img
+              src={bombSide}
+              alt=""
+              className="bomb__img"
+              draggable={false}
+            />
             <button className="bomb__modal-btn" onClick={() => handleClick(3)}>
-              <img className="modal-btn__img" src={key3} alt="" />
+              <img
+                className="modal-btn__img"
+                src={key3}
+                alt=""
+                draggable={false}
+              />
             </button>
             <Light />
           </div>
           <div className="bomb__face bomb__face--left">
-            <img src={bombSide} alt="" className="bomb__img" />
+            <img
+              src={bombSide}
+              alt=""
+              className="bomb__img"
+              draggable={false}
+            />
             <button className="bomb__modal-btn" onClick={() => handleClick(4)}>
-              <img className="modal-btn__img" src={key4} alt="" />
+              <img
+                className="modal-btn__img"
+                src={key4}
+                alt=""
+                draggable={false}
+              />
             </button>
             <Light />
           </div>
           <div className="bomb__face bomb__face--top">
-            <img src={bombTop} alt="" className="bomb__img" />
+            <img src={bombTop} alt="" className="bomb__img" draggable={false} />
             <button className="bomb__modal-btn" onClick={() => handleClick(5)}>
-              <img className="modal-btn__img" src={key5} alt="" />
+              <img
+                className="modal-btn__img"
+                src={key5}
+                alt=""
+                draggable={false}
+              />
             </button>
             <Light />
           </div>
           <div className="bomb__face bomb__face--bottom">
-            <img src={bombBottom} alt="" className="bomb__img" />
+            <img
+              src={bombBottom}
+              alt=""
+              className="bomb__img"
+              draggable={false}
+            />
             <button className="bomb__modal-btn" onClick={() => handleClick(6)}>
-              <img className="modal-btn__img" src={key6} alt="" />
+              <img
+                className="modal-btn__img"
+                src={key6}
+                alt=""
+                draggable={false}
+              />
             </button>
             <Light />
           </div>

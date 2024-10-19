@@ -52,6 +52,7 @@ const CompassWires = () => {
               src={resistorIMG}
               alt=""
               onClick={() => handleResistorClick(`res-${wireNum}`)}
+              draggable={false}
             />
           </div>
         ))}

@@ -121,6 +121,7 @@ const Compass = ({ heading = 0, setHeading, pendingResistor }) => {
             src={compassImg}
             alt=""
             style={{ transform: `rotate(${-heading}deg)` }}
+            draggable={false}
           />
 
           <div className="compass__heading">{`${heading}°`}</div>
