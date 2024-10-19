@@ -57,7 +57,11 @@ const CompassWires = () => {
         ))}
       </div>
       <div className="compass-wires-compass">
-        <Compass heading={heading} setHeading={setHeading} />
+        <Compass
+          heading={heading}
+          setHeading={setHeading}
+          pendingResistor={pendingResistor}
+        />
 
         {/* Used to test the heading values remove later */}
         {/*<ul className="resistor-setting-test">*/}

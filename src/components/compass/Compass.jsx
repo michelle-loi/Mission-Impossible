@@ -7,7 +7,16 @@ import compassImg from '../../assets/compass2.png';
  * https://dev.to/orkhanjafarovr/real-compass-on-mobile-browsers-with-javascript-3emi
  * https://developer.mozilla.org/en-US/docs/Web/API/Window/deviceorientationabsolute_event
  */
-const Compass = ({ heading = 0, setHeading }) => {
+
+/**
+ * Compass component that determines the heading the users is at.
+ * Can be deviated by passing in a resistor value
+ * @param heading the heading value
+ * @param setHeading the setter to set the heading
+ * @param pendingResistor the resistor the user has clicked (used to deviate the compass)
+ * @returns {Element} the compass component
+ */
+const Compass = ({ heading = 0, setHeading, pendingResistor }) => {
   // const [heading, setHeading] = useState(0);
   const [permissionGranted, setPermissionGranted] = useState(false);
 
@@ -19,6 +28,17 @@ const Compass = ({ heading = 0, setHeading }) => {
   // Checks if permission is requested
   const requiresPermission =
     typeof DeviceOrientationEvent.requestPermission === 'function';
+
+  const resistorDeviations = {
+    'res-1': 0,
+    'res-2': 156,
+    'res-3': 87,
+    'res-4': 45,
+    'res-5': 30,
+    'res-6': 210,
+  };
+
+  const [deviation, setDeviation] = useState(0);
 
   useEffect(() => {
     /**
@@ -33,7 +53,8 @@ const Compass = ({ heading = 0, setHeading }) => {
 
         // if there is a value set it.
         if (compassValue !== null) {
-          setHeading(Math.floor(compassValue));
+          // Modulo keeps the value between 0 and 360 inclusive
+          setHeading((Math.floor(compassValue) + deviation) % 360);
 
           // alert to error
         } else {
@@ -76,7 +97,20 @@ const Compass = ({ heading = 0, setHeading }) => {
     return () => {
       window.removeEventListener('deviceorientationabsolute', handleCompass);
     };
-  }, []);
+  }, [deviation]);
+
+  useEffect(() => {
+    // if a resistor is selected set a deviation
+    if (pendingResistor !== null) {
+      const currentDeviation = resistorDeviations[pendingResistor];
+      setDeviation(currentDeviation);
+      // alert(`setting deviation ${currentDeviation}`);
+
+      // no resistor = no deviation
+    } else {
+      setDeviation(0);
+    }
+  }, [pendingResistor]);
 
   return (
     <div className="compass">
