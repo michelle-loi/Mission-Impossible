@@ -1,18 +1,27 @@
 :root {
-  --battery-width: 220px;
-  --battery-height: 100px;
+  --battery-width: 60vh;
+  --battery-height: 17vw;
   --battery-body-gap: 5px;
   --battery-body-padding: 8px;
   --positive-width: 20px;
   --positive-height: 50px;
   --positive-border-radius: 5px;
   --num-fills: 5;
+  --max-battery-width: 220px;
+  --max-battery-height: 100px;
+
+  @media screen and (orientation: portrait) {
+    --battery-width: 20vh;
+    --battery-height: 22vw;
+  }
 }
 
 .battery {
   border: 1px solid #d0c5c5;
   height: var(--battery-height);
   width: var(--battery-width);
+  max-height: var(--max-battery-height);
+  max-width: var(--max-battery-width);
   background-color: #333333;
   border-radius: 10px;
   position: relative;
@@ -37,9 +46,15 @@
 }
 
 .battery__fill {
-  height: calc(var(--battery-height) - (var(--battery-body-padding) * 2));
   background-color: rgba(250, 250, 250, 1);
+  height: calc(var(--battery-height) - (var(--battery-body-padding) * 2));
   width: calc(
+    var(--max-battery-width) / var(--num-fills) - var(--battery-body-gap)
+  );
+  max-height: calc(
+    var(--max-battery-height) - (var(--battery-body-padding) * 2)
+  );
+  max-width: calc(
     var(--battery-width) / var(--num-fills) - var(--battery-body-gap)
   );
   opacity: 0;

@@ -20,6 +20,14 @@
     var(--battery-height) * 3 + var(--battery-container-gap) * 2 +
       var(--battery-container-extra-space)
   );
+  max-height: calc(
+    var(--max-battery-width) + var(--positive-width) +
+      var(--battery-container-extra-space)
+  );
+  max-width: calc(
+    var(--max-battery-height) * 3 + var(--battery-container-gap) * 2 +
+      var(--battery-container-extra-space)
+  );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,7 +65,9 @@
 }
 
 .battery-indicator-2 {
-  left: calc(var(--battery-width) + var(--positive-height));
+  left: calc(
+    min(var(--battery-width), var(--max-battery-width)) + var(--positive-height)
+  );
 }
 
 .battery-indicator-charged {
