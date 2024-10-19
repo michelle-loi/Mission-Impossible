@@ -1,4 +1,5 @@
-$light-size: 25px;
+$light-size: 3vw;
+$min-light-size: 25px;
 
 .light {
   position: absolute;
@@ -6,6 +7,8 @@ $light-size: 25px;
   left: 8%;
   width: $light-size;
   height: $light-size;
+  min-width: $min-light-size;
+  min-height: $min-light-size;
   border-radius: 50%;
   background: rgba(255, 0, 0, 1);
   background: radial-gradient(
@@ -20,6 +23,7 @@ $light-size: 25px;
     0 0 150px rgba(255, 0, 0, 1),
     0 0 200px rgba(255, 0, 0, 1);
   animation: lightFlicker 3s infinite;
+  user-select: none;
 }
 
 @keyframes lightFlicker {

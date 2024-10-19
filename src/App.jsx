@@ -3,6 +3,8 @@ import Bomb from './components/bomb/Bomb.jsx';
 import { useState } from 'react';
 import Toggles from './components/toggles/Toggles.jsx';
 import Modal from './components/modal/Modal.jsx';
+import LightSensor from './components/battery/LightSensor.jsx';
+import CompassWires from './components/compass/CompassWires.jsx';
 
 function App() {
   const [side, setSide] = useState('front');
@@ -15,12 +17,31 @@ function App() {
     <div className="app-container">
       <Bomb side={side} setPuzzleNum={setPuzzleNum} />
       <Toggles side={side} setSide={setSide} />
-      {puzzleNum === 1 && <Modal closeModal={clearPuzzle} />}
-      {puzzleNum === 2 && <Modal closeModal={clearPuzzle} />}
-      {puzzleNum === 3 && <Modal closeModal={clearPuzzle} />}
-      {puzzleNum === 4 && <Modal closeModal={clearPuzzle} />}
-      {puzzleNum === 5 && <Modal closeModal={clearPuzzle} />}
-      {puzzleNum === 6 && <Modal closeModal={clearPuzzle} />}
+
+      {/* Puzzles */}
+      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 1}>
+        <LightSensor />
+      </Modal>
+
+      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 2}>
+        <CompassWires />
+      </Modal>
+
+      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 3}>
+        <div>Puzzle 3</div>
+      </Modal>
+
+      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 4}>
+        <div>Puzzle 4</div>
+      </Modal>
+
+      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 5}>
+        <div>Puzzle 5</div>
+      </Modal>
+
+      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 6}>
+        <div>Puzzle 6</div>
+      </Modal>
     </div>
   );
 }
