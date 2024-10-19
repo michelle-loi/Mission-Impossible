@@ -1,9 +1,18 @@
-@import './_variables';
+:root {
+  --battery-width: 220px;
+  --battery-height: 100px;
+  --battery-body-gap: 5px;
+  --battery-body-padding: 8px;
+  --positive-width: 20px;
+  --positive-height: 50px;
+  --positive-border-radius: 5px;
+  --num-fills: 5;
+}
 
 .battery {
   border: 1px solid #d0c5c5;
-  height: $battery-height;
-  width: $battery-width;
+  height: var(--battery-height);
+  width: var(--battery-width);
   background-color: #333333;
   border-radius: 10px;
   position: relative;
@@ -11,26 +20,28 @@
 
 .battery__positive {
   position: absolute;
-  width: $positive-width;
-  height: $positive-height;
-  right: calc(-1 * $positive-width);
+  width: var(--positive-width);
+  height: var(--positive-height);
+  right: calc(0px - var(--positive-width));
   top: 50%;
   transform: translateY(-50%);
   background-color: #d0c5c5;
-  border-top-right-radius: $positive-border-radius;
-  border-bottom-right-radius: $positive-border-radius;
+  border-top-right-radius: var(--positive-border-radius);
+  border-bottom-right-radius: var(--positive-border-radius);
 }
 
 .battery__body {
   display: flex;
-  gap: $battery-body-gap;
-  padding: $battery-body-padding;
+  gap: var(--battery-body-gap);
+  padding: var(--battery-body-padding);
 }
 
 .battery__fill {
-  height: calc($battery-height - ($battery-body-padding * 2));
+  height: calc(var(--battery-height) - (var(--battery-body-padding) * 2));
   background-color: rgba(250, 250, 250, 1);
-  width: calc($battery-width / $num-fills - $battery-body-gap);
+  width: calc(
+    var(--battery-width) / var(--num-fills) - var(--battery-body-gap)
+  );
   opacity: 0;
   transition: opacity 0.5s ease;
 }
