@@ -66,11 +66,15 @@
   top: 10%;
   right: 11%;
   border: none;
+  width: 5vw;
+  height: auto;
+  min-width: 50px;
+  min-height: 50px;
 }
 
 .modal-btn__img {
-  width: 50px;
-  height: 50px;
+  //width: 50px;
+  //height: 50px;
   object-fit: cover;
   object-position: center center;
 }
