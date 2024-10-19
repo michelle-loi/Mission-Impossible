@@ -117,11 +117,12 @@ const Compass = ({ heading = 0, setHeading, pendingResistor }) => {
       {permissionGranted ? (
         <div className="compass--show">
           <img
-            className="compass__img"
+            className={`compass__img ${pendingResistor ? `glitch-${pendingResistor}` : ''}`}
             src={compassImg}
             alt=""
             style={{ transform: `rotate(${-heading}deg)` }}
           />
+
           <div className="compass__heading">{`${heading}°`}</div>
         </div>
       ) : (

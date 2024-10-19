@@ -27,8 +27,7 @@
   width: var(--calculate-wire-width);
 }
 
-.wire1,
-.wire5 {
+.wire1 {
   background: linear-gradient(to right, darkred, red, darkred);
 }
 
@@ -36,13 +35,20 @@
   background: linear-gradient(to right, darkblue, blue, darkblue);
 }
 
-.wire3,
-.wire6 {
+.wire3 {
   background: linear-gradient(to right, #044f23, #04913f, #044f23);
 }
 
 .wire4 {
   background: linear-gradient(to right, #7a6502, #ffff00, #7a6502);
+}
+
+.wire5 {
+  background: linear-gradient(to right, #710386, #d500ff, #710386);
+}
+
+.wire6 {
+  background: linear-gradient(to right, #813c03, #ff7300, #813c03);
 }
 
 .light-drop {
