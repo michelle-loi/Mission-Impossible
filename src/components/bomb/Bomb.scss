@@ -18,8 +18,8 @@
   height: var(--bomb-height);
   position: relative;
   transform-style: preserve-3d;
-  transform: translateZ(calc(0px - var(--half-depth)));
-  transition: transform 1s;
+  // transform: translateZ(calc(0px - var(--half-depth)));
+  // transition: transform 1s;
 }
 
 .bomb__face {

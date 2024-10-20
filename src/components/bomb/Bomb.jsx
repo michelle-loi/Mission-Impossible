@@ -1,5 +1,6 @@
 import './Bomb.scss';
-import { useState } from 'react';
+import { useDeviceOrientation } from './useDeviceOrientation';
+import OrientationSwitcher from './OrientationSwitcher';
 import bombFront from '../../assets/bomb_front.png';
 import bombBack from '../../assets/bomb_back.png';
 import bombTop from '../../assets/bomb_top.png';
@@ -25,10 +26,25 @@ const Bomb = ({ side, setPuzzleNum }) => {
     playAudio(new Audio(clickSFX), 1, 0);
   };
 
+  const {
+    requestAccess,
+    revokeAccess,
+    cssTransformInverse,
+  } = useDeviceOrientation();
+
+  const onToggle = (toggleState) => {
+    const result = toggleState ? requestAccess() : revokeAccess();
+  };
+
   return (
     <>
       <div className="bomb-scene">
-        <div className={`bomb show-${side}`}>
+        <OrientationSwitcher
+          onToggle={onToggle}
+          labelOff="Turn the Gyro-Cube ON"
+          labelOn="Turn the Gyro-Cube OFF"
+        />
+        <div className={`bomb show-${side}`} style={cssTransformInverse}>
           <div className="bomb__face bomb__face--front">
             <img
               src={bombFront}
