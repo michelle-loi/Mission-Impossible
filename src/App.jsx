@@ -1,48 +1,71 @@
 import './App.scss';
-import Bomb from './components/bomb/Bomb.jsx';
-import { useState } from 'react';
-import Toggles from './components/toggles/Toggles.jsx';
-import Modal from './components/modal/Modal.jsx';
-import LightSensor from './components/battery/LightSensor.jsx';
-import CompassWires from './components/compass/CompassWires.jsx';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useLocation,
+} from 'react-router-dom';
+import Passcode from './pages/passcode/Passcode.jsx';
+import HomeScreen from './pages/homescreen/HomeScreen.jsx';
+import LockScreen from './pages/lockscreen/LockScreen.jsx';
+import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {
-  const [side, setSide] = useState('front');
-  const [puzzleNum, setPuzzleNum] = useState(-1);
-  const clearPuzzle = () => {
-    setPuzzleNum(-1);
+  const LockscreenVariants = {
+    initial: { opacity: 0, y: -100 }, // start above
+    in: { opacity: 1, y: 0 }, // animate into view
+    exit: { opacity: 0, y: -100 }, // animate above again
   };
 
+  const PasscodeVariants = {
+    initial: { opacity: 0, y: 100 }, // start below
+    in: { opacity: 1, y: 0 }, // animate into view
+    exit: { opacity: 0, y: 100 }, // animate below again
+  };
+
+  const AnimatedRoute = ({ children, variants, duration }) => {
+    const location = useLocation();
+
+    return (
+      <motion.div
+        key={location.key} // key for exit animations with presence
+        initial="initial"
+        animate="in"
+        exit="exit"
+        variants={variants}
+        transition={{ duration: duration }}
+      >
+        {children}
+      </motion.div>
+    );
+  };
+
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: (
+        <AnimatedRoute variants={LockscreenVariants} duration={0.4}>
+          <LockScreen />
+        </AnimatedRoute>
+      ),
+    },
+    {
+      path: '/passcode',
+      element: (
+        <AnimatedRoute variants={PasscodeVariants} duration={0.4}>
+          <Passcode />
+        </AnimatedRoute>
+      ),
+    },
+    {
+      path: '/homescreen',
+      element: <HomeScreen />,
+    },
+  ]);
+
   return (
-    <div className="app-container">
-      <Bomb side={side} setPuzzleNum={setPuzzleNum} />
-      <Toggles side={side} setSide={setSide} />
-
-      {/* Puzzles */}
-      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 1}>
-        <LightSensor />
-      </Modal>
-
-      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 2}>
-        <CompassWires />
-      </Modal>
-
-      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 3}>
-        <div>Puzzle 3</div>
-      </Modal>
-
-      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 4}>
-        <div>Puzzle 4</div>
-      </Modal>
-
-      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 5}>
-        <div>Puzzle 5</div>
-      </Modal>
-
-      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 6}>
-        <div>Puzzle 6</div>
-      </Modal>
-    </div>
+    <AnimatePresence>
+      <RouterProvider router={router} />
+    </AnimatePresence>
   );
 }
 
