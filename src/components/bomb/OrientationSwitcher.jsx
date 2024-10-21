@@ -2,6 +2,7 @@
 import React, { useState } from "react"
 
 import { useDeviceOrientation } from "./useDeviceOrientation"
+import './OrientationSwitcher.scss';
 
 const OrientationSwitcher = props => {
   const {
@@ -14,7 +15,9 @@ const OrientationSwitcher = props => {
 
   const [orientationAvailable, setOrientationAvailable] = useState(false)
 
-  const onToggle = toggleState => {
+  const onToggle = checkboxEvent => {
+    const toggleState = checkboxEvent.target.checked;
+
     if (toggleState) {
       requestAccess().then(granted => {
         if (granted) {
@@ -38,11 +41,20 @@ const OrientationSwitcher = props => {
   ) : null
 
   return (
-    <div>
-      <input type="checkbox"
-        onChange={onToggle}
-        checked={orientationAvailable}
-      />
+    <div className="gyro_switch__container">
+      <label className="gyro_switch__label">
+        <input type="checkbox"
+          className="gyro_switch__checkbox"
+          onChange={onToggle}
+          checked={orientationAvailable}
+        />
+        <div className="gyro_switch__outline">
+          <div className="gyro_switch__pushable">
+            <span className="gyro_switch__front">{orientationAvailable ? labelOn : labelOff}</span>
+          </div>
+        </div>
+      </label>
+      
       {errorElement}
     </div>
   )

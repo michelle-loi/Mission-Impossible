@@ -1,0 +1,51 @@
+.gyro_switch__container {
+    margin-bottom: 0.5em;
+}
+
+.gyro_switch__label {
+    font-size: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+// https://www.joshwcomeau.com/animation/3d-button/
+.gyro_switch__pushable {
+    background: #770101;
+    // border: none;
+    padding: 0;
+    cursor: pointer;
+    outline-offset: 4px;
+}
+.gyro_switch__front {
+    display: block;
+    padding: 12px 42px;
+    font-size: 1.25rem;
+    background: #d30808;
+    transform: translateY(-6px);
+}
+
+.gyro_switch__outline {
+    border: 10px solid gray;
+}
+
+.gyro_switch__pushable:active .gyro_switch__front {
+    transform: translateY(-2px);
+}
+
+.gyro_switch__label .gyro_switch__checkbox {
+    display: none;
+}
+
+.gyro_switch__label .gyro_switch__checkbox:checked 
+    + .gyro_switch__outline > .gyro_switch__pushable {
+    background-color: red;
+}
+
+.gyro_switch__label .gyro_switch__checkbox:checked 
+    + .gyro_switch__outline .gyro_switch__front {
+    transform: translateY(-2px);
+    background-color: red;
+}

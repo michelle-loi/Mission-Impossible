@@ -41,8 +41,8 @@ const Bomb = ({ side, setPuzzleNum }) => {
       <div className="bomb-scene">
         <OrientationSwitcher
           onToggle={onToggle}
-          labelOff="Turn the Gyro-Cube ON"
-          labelOn="Turn the Gyro-Cube OFF"
+          labelOff="Hold Bomb"
+          labelOn="Hold Bomb"
         />
         <div className={`bomb show-${side}`} style={cssTransformInverse}>
           <div className="bomb__face bomb__face--front">

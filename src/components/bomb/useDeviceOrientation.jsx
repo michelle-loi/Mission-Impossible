@@ -32,10 +32,9 @@ export const useDeviceOrientation = () => {
       const b = angles.beta - 45
       const g = angles.gamma > 180 ? 360 - angles.gamma : -angles.gamma
 
-      console.log(`rotateX(${b}deg) rotateY(${g}deg) rotateZ(${a}deg)`);
-
       setCssTransformInverse({
-        transform: `rotateX(${b}deg) rotateY(${g}deg) rotateZ(${0}deg)`
+        transform: `rotateX(${b}deg) rotateY(${g}deg) rotateZ(${0}deg)`,
+        transition: 'none'
       })
     }
   }
