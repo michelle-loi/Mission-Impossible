@@ -1,10 +1,14 @@
 import { ReactP5Wrapper } from "@p5-wrapper/react";
+import { useState } from "react";
+import './CutWire.scss'
 
 function sketch(p5) {
     let permissionGranted = false;
     let cx, cy;
-    let redHeight, redY;
-    let cut = false;
+    let red, yellow, purple;
+    let redCut = false, yellowCut = false, purpleCut = false;
+    let flashlightOn = false;
+    let setPuzzleSolved;
 
     p5.setup = () => {
         p5.createCanvas(p5.windowWidth, p5.windowHeight);
@@ -37,21 +41,26 @@ function sketch(p5) {
         }
         
         p5.background(255);
-      }
+    }
+
+    p5.updateWithProps = props => {
+        flashlightOn = props.flashlightOn;
+        setPuzzleSolved = props.setPuzzleSolved;
+    };
       
-      function requestAccess() {
-        DeviceOrientationEvent.requestPermission()
-          .then(response => {
-            if (response == 'granted') {
-              p5.permissionGranted = true;
-            } else {
-              p5.permissionGranted = false;
-            }
-          })
-        .catch(console.error);
-        
-        this.remove();
-      }
+    function requestAccess() {
+    DeviceOrientationEvent.requestPermission()
+        .then(response => {
+        if (response == 'granted') {
+            p5.permissionGranted = true;
+        } else {
+            p5.permissionGranted = false;
+        }
+        })
+    .catch(console.error);
+    
+    this.remove();
+    }
       
     p5.draw = () => {
         p5.clear();
@@ -66,8 +75,31 @@ function sketch(p5) {
         const dy = p5.constrain(2 * p5.rotationX, -3, 3);
         cx += dx*2;
         cy += dy*2;
-        cx = p5.constrain(cx, 0, p5.width);
+        cx = p5.constrain(190, 0, p5.width);
         cy = p5.constrain(cy, 0, p5.height);
+
+        function drawWireSegment(color, y, fullHeight, cut) {
+            let height;
+            let wireY;
+            const diff = 99;
+            if(cy-diff > y - fullHeight) {
+                height = fullHeight - ((cy-diff) - (y - fullHeight));
+                wireY = cy-diff;
+            } else {
+                height = fullHeight - (y) + (cy-diff+198);
+                wireY = y - fullHeight;
+            }
+            height = p5.constrain(height, 0, fullHeight);
+            
+            if(cut) {
+                p5.fill('white');
+            } else {
+                p5.fill(color);
+            }
+            p5.rect(p5.width/2 - 20, wireY, 40, height);
+
+            return {y: wireY, height: height};
+        }
         
         // camera
         p5.fill('white');
@@ -78,36 +110,49 @@ function sketch(p5) {
         p5.rect(p5.width/2 - 20, cy-99, 40, 198);
 
         const redFullHeight = 80;
-        
-        if(cy-99 > p5.height*5/6 - redFullHeight) {
-          redHeight = redFullHeight - ((cy-99) - (p5.height*5/6 - redFullHeight));
-          redY = cy-99;
-        } else {
-          redHeight = redFullHeight - (p5.height*5/6) + (cy-99+198);
-          redY = p5.height*5/6 - redFullHeight;
+        red = drawWireSegment('red', p5.height*5/6, redFullHeight, redCut);
+        purple = drawWireSegment('purple', p5.height*3/5, redFullHeight, purpleCut);
+        const yellowFullHeight = 80;
+        yellow = drawWireSegment('yellow', p5.height*1/3, yellowFullHeight, yellowCut);
+
+        if(!flashlightOn) {
+            p5.clear();
+            p5.background('black');
         }
-        redHeight = p5.constrain(redHeight, 0, redFullHeight);
-        
-        if(cut) {
-          p5.fill('white');
-        } else {
-          p5.fill('red');
-        }
-        p5.rect(p5.width/2 - 20, redY, 40, redHeight);
         
       }
       
       p5.mousePressed = () => {
-        if((p5.mouseX >= p5.width/2 - 20 && p5.mouseX <= p5.width/2+20) && (p5.mouseY >= redY && p5.mouseY <= redY + redHeight)) {
-          cut = true;
+        if(!flashlightOn) {
+            return;
+        }
+
+        if((p5.mouseX >= p5.width/2 - 20 && p5.mouseX <= p5.width/2+20) && (p5.mouseY >= red.y && p5.mouseY <= red.y + red.height)) {
+            redCut = true;
+            alert('red cut');
+        } else if((p5.mouseX >= p5.width/2 - 20 && p5.mouseX <= p5.width/2+20) && (p5.mouseY >= purple.y && p5.mouseY <= purple.y + purple.height)) {
+            purpleCut = true;
+        } else if((p5.mouseX >= p5.width/2 - 20 && p5.mouseX <= p5.width/2+20) && (p5.mouseY >= yellow.y && p5.mouseY <= yellow.y + yellow.height)) {
+            yellowCut = true;
+            alert('yello cut');
+        }
+
+        if(yellowCut && redCut && !purpleCut) {
+            setPuzzleSolved(true);
+        } else {
+            alert(`y:${yellowCut} r:${redCut} p:${purpleCut}`);
+            setPuzzleSolved(false);
         }
       } 
 }
 
-const CutWire = () => {
+const CutWire = ({setPuzzleSolved}) => {
+    const [flashlightOn, setFlashlightOn] = useState(false);
+
     return (
         <div>
-            <ReactP5Wrapper sketch={sketch}></ReactP5Wrapper>
+            <ReactP5Wrapper sketch={sketch} flashlightOn={flashlightOn} setPuzzleSolved={setPuzzleSolved}></ReactP5Wrapper>
+            <button onClick={() => setFlashlightOn(!flashlightOn)} className="flashlight__button">{flashlightOn ? 'On' : 'Off'}</button>
         </div>
     );
 }

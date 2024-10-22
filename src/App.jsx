@@ -10,13 +10,17 @@ import CutWire from './components/cutwire/CutWire.jsx';
 function App() {
   const [side, setSide] = useState('front');
   const [puzzleNum, setPuzzleNum] = useState(-1);
+  const [puzzlesDone, setPuzzlesDone] = useState({
+    CutWire: false
+  });
+  
   const clearPuzzle = () => {
     setPuzzleNum(-1);
   };
 
   return (
     <div className="app-container">
-      <Bomb side={side} setPuzzleNum={setPuzzleNum} />
+      <Bomb side={side} setPuzzleNum={setPuzzleNum} puzzlesDone={puzzlesDone}/>
       <Toggles side={side} setSide={setSide} />
 
       {/* Puzzles */}
@@ -29,7 +33,12 @@ function App() {
       </Modal>
 
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 3}>
-        <CutWire />
+        <CutWire setPuzzleSolved={(solved) => {
+            setPuzzlesDone({
+              ...puzzlesDone,
+              CutWire: solved
+            })
+          }}/>
       </Modal>
 
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 4}>
