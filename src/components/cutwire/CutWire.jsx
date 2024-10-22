@@ -129,18 +129,15 @@ function sketch(p5) {
 
         if((p5.mouseX >= p5.width/2 - 20 && p5.mouseX <= p5.width/2+20) && (p5.mouseY >= red.y && p5.mouseY <= red.y + red.height)) {
             redCut = true;
-            alert('red cut');
         } else if((p5.mouseX >= p5.width/2 - 20 && p5.mouseX <= p5.width/2+20) && (p5.mouseY >= purple.y && p5.mouseY <= purple.y + purple.height)) {
             purpleCut = true;
         } else if((p5.mouseX >= p5.width/2 - 20 && p5.mouseX <= p5.width/2+20) && (p5.mouseY >= yellow.y && p5.mouseY <= yellow.y + yellow.height)) {
             yellowCut = true;
-            alert('yello cut');
         }
 
         if(yellowCut && redCut && !purpleCut) {
             setPuzzleSolved(true);
         } else {
-            alert(`y:${yellowCut} r:${redCut} p:${purpleCut}`);
             setPuzzleSolved(false);
         }
       } 

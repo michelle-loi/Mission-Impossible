@@ -3,7 +3,7 @@ import Toggles from '../../components/toggles/Toggles.jsx';
 import Modal from '../../components/modal/Modal.jsx';
 import LightSensor from '../../components/battery/LightSensor.jsx';
 import CompassWires from '../../components/compass/CompassWires.jsx';
-import CutWire from './components/cutwire/CutWire.jsx';
+import CutWire from '../../components/cutwire/CutWire.jsx';
 import { useState } from 'react';
 import './Passcode.scss';
 import { useNavigate } from 'react-router-dom';
@@ -52,7 +52,11 @@ const Passcode = () => {
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      <Bomb side={side} setPuzzleNum={setPuzzleNum} setDontHoldBomb={setDontHoldBomb}/>
+      <Bomb 
+        side={side}
+        setPuzzleNum={setPuzzleNum}
+        setDontHoldBomb={setDontHoldBomb}
+        puzzlesDone={puzzlesDone} />
       <Toggles isDisabled={dontHoldBomb} side={side} setSide={setSide} />
 
       {/* Puzzles */}
