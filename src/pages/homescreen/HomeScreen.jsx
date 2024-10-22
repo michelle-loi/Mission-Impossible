@@ -27,8 +27,6 @@ const HomeScreen = () => {
         hour12: true,
       });
 
-      time = time.replace(/ AM| PM/, '');
-
       setTime(time);
     };
 
