@@ -11,7 +11,6 @@
 // https://www.joshwcomeau.com/animation/3d-button/
 .gyro_switch__pushable {
     background: #770101;
-    // border: none;
     padding: 0;
     cursor: pointer;
     outline-offset: 4px;
@@ -26,10 +25,6 @@
 
 .gyro_switch__outline {
     border: 10px solid gray;
-}
-
-.gyro_switch__pushable:active .gyro_switch__front {
-    transform: translateY(-2px);
 }
 
 .gyro_switch__label .gyro_switch__checkbox {
