@@ -1,26 +1,26 @@
 @import '../../sass/mixins';
 
 .lockscreen {
+  --padding-lockscreen: 1.25em;
+
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
   background: url('../../assets/lockscreen2.jpg') no-repeat;
   background-size: cover;
+  padding: var(--padding-lockscreen);
 }
 
 .lockscreen__info {
   display: flex;
   margin-left: auto;
-  padding: 10px 10px 0 0;
 }
 
 .lockscreen__datetime {
   flex: 1;
-  padding: 1.5rem;
 }
 
 .lockscreen__camera {
-  padding: 1rem;
 }
 
 .camera__wrapper {

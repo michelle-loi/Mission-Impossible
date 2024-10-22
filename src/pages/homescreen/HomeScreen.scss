@@ -1,15 +1,16 @@
 .homescreen {
-  --padding-home: 20px;
+  --padding-home-y: 1.25rem;
+  --padding-home-x: 0.625rem;
 
   min-height: 100dvh;
   background: url('../../assets/lockscreen2.jpg') no-repeat;
   background-size: cover;
   display: flex;
   flex-direction: column;
+  padding: var(--padding-home-y) var(--padding-home-x);
 }
 
 .homescreen__upper {
-  padding: var(--padding-home);
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -17,19 +18,30 @@
 
 .homescreen__info {
   display: flex;
-  margin-left: auto;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.homescreen__time {
+  font-family: 'Calibri Light', serif;
+  font-size: 1.2rem;
+}
+
+.homescreen__connectivity {
+  display: flex;
 }
 
 .homescreen__lower {
-  padding: var(--padding-home) 0;
+  width: 92%;
+  margin: 0 auto;
 }
 
 .homescreen__apps {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  padding: 1rem;
+  justify-content: space-between;
   gap: 10px;
+  padding: 0 0 20px 0;
 }
 
 .homescreen__logo {
@@ -43,10 +55,9 @@
   display: flex;
   justify-content: space-between;
   border-radius: 30px;
-  width: 90%;
   margin: 0 auto;
 }
 
 .search-logo {
-  width: 40px;
+  width: 30px;
 }

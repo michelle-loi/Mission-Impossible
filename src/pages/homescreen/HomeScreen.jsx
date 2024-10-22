@@ -12,14 +12,46 @@ import {
   MdNetworkWifi,
   MdSignalCellular3Bar,
 } from 'react-icons/md';
+import { useEffect, useState } from 'react';
 const HomeScreen = () => {
+  const [time, setTime] = useState('');
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+
+      // Format 12-hour clock with no seconds
+      let time = now.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+      });
+
+      time = time.replace(/ AM| PM/, '');
+
+      setTime(time);
+    };
+
+    // Call function on mount to time
+    updateTime();
+
+    // Call function every second to update
+    const intervalId = setInterval(updateTime, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <div className="homescreen">
       <div className="homescreen__upper">
         <div className="homescreen__info">
-          <MdNetworkWifi />
-          <MdSignalCellular3Bar />
-          <MdBattery90 />
+          <div className="homescreen__time">{time}</div>
+
+          <div className="homescreen__connectivity">
+            <MdNetworkWifi />
+            <MdSignalCellular3Bar />
+            <MdBattery90 />
+          </div>
         </div>
         <div>
           <Clock />
