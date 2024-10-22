@@ -1,0 +1,182 @@
+import { useState, useMemo, useEffect } from "react";
+import "./Maze.scss";
+
+export default function MazeGame() {
+  const [gameId, setGameId] = useState(1);
+  const [status, setStatus] = useState("playing");
+  const [cheatMode, setCheatMode] = useState(false);
+  const [userPosition, setUserPosition] = useState([0, 0]);
+  const [lastMoveTime, setLastMoveTime] = useState(0);
+  const [attempts, setAttempts] = useState(0); // Track number of attempts
+  const moveDelay = 200; // Delay in milliseconds
+
+  const fixedMaze = [
+    [[0, 1, 1, 0], [0, 1, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1], [0, 1, 0, 1], [0, 1, 1, 1], [0, 1, 0, 1], [0, 1, 1, 1], [0, 1, 0, 1], [0, 0, 1, 1]],
+    [[1, 1, 0, 0], [0, 1, 1, 1], [1, 0, 0, 1], [1, 1, 1, 0], [0, 1, 0, 1], [1, 1, 1, 1], [0, 1, 0, 1], [1, 1, 0, 1], [1, 1, 0, 1], [1, 0, 1, 1]],
+    [[0, 1, 1, 0], [1, 1, 0, 1], [0, 0, 1, 0], [1, 1, 1, 1], [1, 0, 1, 1], [0, 1, 0, 0], [1, 0, 1, 1], [0, 1, 1, 0], [1, 1, 0, 1], [1, 0, 1, 1]],
+    [[1, 1, 0, 0], [0, 1, 1, 1], [1, 0, 1, 1], [0, 1, 1, 1], [1, 1, 1, 0], [1, 1, 0, 1], [0, 1, 1, 0], [1, 0, 0, 1], [0, 1, 1, 0], [0, 0, 1, 1]],
+    [[0, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 1], [1, 1, 1, 0], [0, 1, 1, 1], [1, 0, 0, 1], [1, 1, 0, 1], [1, 1, 1, 1], [1, 1, 0, 1], [1, 0, 1, 1]],
+    [[1, 1, 0, 0], [0, 1, 1, 1], [1, 1, 0, 1], [0, 1, 1, 1], [1, 0, 1, 1], [1, 1, 1, 0], [1, 1, 0, 1], [0, 1, 1, 1], [1, 1, 0, 1], [1, 0, 1, 1]],
+    [[0, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 1], [1, 1, 1, 0], [1, 1, 0, 1], [1, 1, 1, 1], [1, 0, 0, 1], [1, 1, 1, 0], [0, 1, 0, 1], [0, 0, 1, 1]],
+    [[1, 1, 0, 0], [0, 1, 1, 1], [1, 0, 0, 1], [1, 1, 1, 0], [1, 1, 1, 1], [1, 1, 0, 0], [0, 1, 0, 1], [1, 1, 1, 0], [0, 1, 1, 1], [1, 0, 1, 1]],
+    [[0, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 1], [1, 1, 1, 0], [0, 1, 1, 1], [1, 1, 0, 0], [1, 1, 1, 1], [0, 1, 0, 0], [1, 1, 0, 1], [0, 0, 1, 1]],
+    [[1, 1, 1, 0], [0, 1, 0, 1], [1, 0, 0, 0], [1, 1, 1, 0], [1, 1, 0, 1], [0, 1, 1, 1], [1, 0, 0, 1], [0, 1, 0, 0], [1, 1, 0, 1], [1, 0, 1, 1]]
+  ];
+
+  const maze = useMemo(() => fixedMaze, [gameId]);
+  const maxColIndex = maze[0].length - 1;
+
+  // Set CSS variables for maze rows and columns
+  useEffect(() => {
+    const mazeRows = maze.length;
+    const mazeCols = maze[0].length;
+    document.documentElement.style.setProperty('--maze-rows', mazeRows);
+    document.documentElement.style.setProperty('--maze-cols', mazeCols);
+  }, [maze]);
+
+  // Define the winning cell
+  const winningCell = [4, 5]; // Change this to any valid cell as the winning position
+
+  // Move player with delay
+  const movePlayer = (gamma, beta) => {
+    const currentTime = Date.now();
+  
+    // Prevent rapid movement
+    if (currentTime - lastMoveTime < moveDelay) {
+      return;
+    }
+  
+    setLastMoveTime(currentTime);
+    let newPosition = [...userPosition];
+  
+    // Move right while gamma indicates right movement
+    while (gamma > 5) {
+      newPosition[1] = Math.min(newPosition[1] + 1, maze[0].length - 1); // Move right
+      gamma -= 5; // Decrease gamma to eventually exit the loop
+    }
+  
+    // Move left while gamma indicates left movement
+    while (gamma < -5) {
+      newPosition[1] = Math.max(newPosition[1] - 1, 0); // Move left
+      gamma += 5; // Increase gamma to eventually exit the loop
+    }
+  
+    // Move down while beta indicates downward movement
+    while (beta > 5) {
+      newPosition[0] = Math.min(newPosition[0] + 1, maze.length - 1); // Move down
+      beta -= 5; // Decrease beta to eventually exit the loop
+    }
+  
+    // Move up while beta indicates upward movement
+    while (beta < -5) {
+      newPosition[0] = Math.max(newPosition[0] - 1, 0); // Move up
+      beta += 5; // Increase beta to eventually exit the loop
+    }
+  
+    // Only update user position if it's within bounds
+    if (
+      newPosition[0] >= 0 &&
+      newPosition[0] < maze.length &&
+      newPosition[1] >= 0 &&
+      newPosition[1] < maze[0].length &&
+      maze[newPosition[0]][newPosition[1]] !== 1 // Check if the cell is not a wall
+    ) {
+      setUserPosition(newPosition);
+    }
+  };
+
+  // Handle device motion
+  useEffect(() => {
+    const handleDeviceMotion = (event) => {
+      const { beta, gamma } = event; // Get beta (x-axis) and gamma (z-axis)
+      movePlayer(gamma, beta);
+    };
+
+    const requestPermission = async () => {
+      if (DeviceOrientationEvent.requestPermission) {
+        try {
+          const permission = await DeviceOrientationEvent.requestPermission();
+          if (permission === "granted") {
+            window.addEventListener("deviceorientation", handleDeviceMotion);
+          } else {
+            console.log("Permission not granted for device orientation.");
+          }
+        } catch (error) {
+          console.error("Error requesting device orientation permission", error);
+        }
+      } else {
+        window.addEventListener("deviceorientation", handleDeviceMotion);
+      }
+    };
+
+    requestPermission();
+    return () => {
+      window.removeEventListener("deviceorientation", handleDeviceMotion);
+    };
+  }, []);
+
+  const restartGame = () => {
+    setGameId((prevId) => prevId + 1);
+    setUserPosition([0, 0]);
+    setStatus("playing");
+    setAttempts(0); // Reset attempts
+  };
+
+  const handleConfirm = () => {
+    if (userPosition[0] === winningCell[0] && userPosition[1] === winningCell[1]) {
+      console.log("You've won!");
+      setStatus("won");
+    } else {
+      if (attempts < 2) {
+        setAttempts((prev) => prev + 1); // Increment attempts
+        console.log(`Incorrect! You have ${2 - attempts} attempts left.`);
+      } else {
+        console.log("Not allowed!");
+        setStatus("notAllowed"); // Set a status for "not allowed"
+      }
+    }
+  };
+
+  return (
+    <div className="maze-container">
+      <div className="maze">
+        {maze.map((row, rowIndex) =>
+          row.map((cell, colIndex) => (
+            <div
+              key={`${rowIndex}-${colIndex}`}
+              className={`cell ${status === "won" ? "winning-cell" : ""} ${cheatMode && (userPosition[0] === rowIndex && userPosition[1] === colIndex) ? "hint" : ""}`}
+            >
+              {userPosition[0] === rowIndex && userPosition[1] === colIndex && <div className="player"></div>}
+            </div>
+          ))
+        )}
+      </div>
+      {status === "won" && (
+        <div className="win-message">
+          <h2>You've won!</h2>
+          <button className="maze-btn" onClick={restartGame}>Restart</button>
+        </div>
+      )}
+      {status === "notAllowed" && (
+        <div className="not-allowed-message">
+          <h2>Not allowed!</h2>
+          <button className="maze-btn" onClick={restartGame}>Restart</button>
+        </div>
+      )}
+      <button className="maze-btn" onClick={() => setCheatMode(!cheatMode)}>
+        {cheatMode ? "Disable Cheat Mode" : "Enable Cheat Mode"}
+      </button>
+      <button className="maze-btn" onClick={handleConfirm}>Confirm</button>
+      {cheatMode && (
+        <div className="hint-message">
+          Hint: The winning cell is at row {winningCell[0]}, column {winningCell[1]} and length of column is {maxColIndex}
+        </div>
+      )}
+      {status === "notAllowed" && attempts >= 3 && (
+        <div className="attempts-message">
+          <h3>You have used all your attempts.</h3>
+        </div>
+      )}
+    </div>
+  );
+}
