@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 const Passcode = () => {
   const [side, setSide] = useState('front');
   const [puzzleNum, setPuzzleNum] = useState(null);
+  const [dontHoldBomb, setDontHoldBomb] = useState(false);
   const clearPuzzle = () => {
     setPuzzleNum(null);
   };
@@ -47,8 +48,8 @@ const Passcode = () => {
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      <Bomb side={side} setPuzzleNum={setPuzzleNum} />
-      <Toggles side={side} setSide={setSide} />
+      <Bomb side={side} setPuzzleNum={setPuzzleNum} setDontHoldBomb={setDontHoldBomb}/>
+      <Toggles isDisabled={dontHoldBomb} side={side} setSide={setSide} />
 
       {/* Puzzles */}
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 1}>
