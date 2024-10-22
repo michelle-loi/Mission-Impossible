@@ -47,7 +47,7 @@ const Compass = ({ heading = 0, setHeading, pendingResistor }) => {
      */
     const handleCompass = (event) => {
       // absolute indicates if the heading value is accurate
-      if (event.absolute) {
+      if ((isIOS && event.webkitCompassHeading) || event.absolute) {
         // webkit for iOS devices, alpha for android
         let compassValue = event.webkitCompassHeading || event.alpha;
 
@@ -75,7 +75,7 @@ const Compass = ({ heading = 0, setHeading, pendingResistor }) => {
             if (response === 'granted') {
               setPermissionGranted(true);
               window.addEventListener(
-                'deviceorientationabsolute',
+                'deviceorientation',
                 handleCompass
               );
             } else {
@@ -95,7 +95,11 @@ const Compass = ({ heading = 0, setHeading, pendingResistor }) => {
 
     // cleanup on component unmount
     return () => {
-      window.removeEventListener('deviceorientationabsolute', handleCompass);
+      if(isIOS) {
+        window.removeEventListener('deviceorientation', handleCompass);
+      } else {
+        window.removeEventListener('deviceorientationabsolute', handleCompass);
+      }
     };
   }, [deviation]);
 
