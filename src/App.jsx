@@ -5,6 +5,7 @@ import Toggles from './components/toggles/Toggles.jsx';
 import Modal from './components/modal/Modal.jsx';
 import LightSensor from './components/battery/LightSensor.jsx';
 import CompassWires from './components/compass/CompassWires.jsx';
+import CutWire from './components/cutwire/CutWire.jsx';
 
 function App() {
   const [side, setSide] = useState('front');
@@ -28,7 +29,7 @@ function App() {
       </Modal>
 
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 3}>
-        <div>Puzzle 3</div>
+        <CutWire />
       </Modal>
 
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 4}>
