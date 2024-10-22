@@ -6,7 +6,7 @@ import './Toggles.scss';
  * @param setSide the setter is set which side to display
  * @returns {JSX.Element} The radio buttons
  */
-const Toggles = ({ side, setSide }) => {
+const Toggles = ({ isDisabled, side, setSide }) => {
   /**
    * Get the side selected from the radio button
    * @param event the radio button click
@@ -24,6 +24,7 @@ const Toggles = ({ side, setSide }) => {
           name="rotate-cube-side"
           value="front"
           checked={side === 'front'}
+          disabled={isDisabled}
           onChange={selectSide}
         />
         Front
@@ -34,6 +35,7 @@ const Toggles = ({ side, setSide }) => {
           name="rotate-cube-side"
           value="right"
           checked={side === 'right'}
+          disabled={isDisabled}
           onChange={selectSide}
         />
         Right
@@ -44,6 +46,7 @@ const Toggles = ({ side, setSide }) => {
           name="rotate-cube-side"
           value="back"
           checked={side === 'back'}
+          disabled={isDisabled}
           onChange={selectSide}
         />
         Back
@@ -54,6 +57,7 @@ const Toggles = ({ side, setSide }) => {
           name="rotate-cube-side"
           value="left"
           checked={side === 'left'}
+          disabled={isDisabled}
           onChange={selectSide}
         />
         Left
@@ -64,6 +68,7 @@ const Toggles = ({ side, setSide }) => {
           name="rotate-cube-side"
           value="top"
           checked={side === 'top'}
+          disabled={isDisabled}
           onChange={selectSide}
         />
         Top
@@ -74,6 +79,7 @@ const Toggles = ({ side, setSide }) => {
           name="rotate-cube-side"
           value="bottom"
           checked={side === 'bottom'}
+          disabled={isDisabled}
           onChange={selectSide}
         />
         Bottom

@@ -9,14 +9,15 @@ import CompassWires from './components/compass/CompassWires.jsx';
 function App() {
   const [side, setSide] = useState('front');
   const [puzzleNum, setPuzzleNum] = useState(-1);
+  const [dontHoldBomb, setDontHoldBomb] = useState(false);
   const clearPuzzle = () => {
     setPuzzleNum(-1);
   };
 
   return (
     <div className="app-container">
-      <Bomb side={side} setPuzzleNum={setPuzzleNum} />
-      <Toggles side={side} setSide={setSide} />
+      <Bomb side={side} setPuzzleNum={setPuzzleNum} setDontHoldBomb={setDontHoldBomb}/>
+      <Toggles isDisabled={dontHoldBomb} side={side} setSide={setSide}/>
 
       {/* Puzzles */}
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 1}>
