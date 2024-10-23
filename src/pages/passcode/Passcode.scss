@@ -4,7 +4,11 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(ellipse at bottom, #2d2c2c 0%, #090a0f 100%);
+  //background: radial-gradient(ellipse at bottom, #2d2c2c 0%, #090a0f 100%);
+  background: rgba(0, 0, 0, 0.55) url('../../assets/scene.jpeg') no-repeat
+    center center;
+  background-blend-mode: darken;
+  background-size: cover;
   overflow: hidden;
 
   @media screen and (orientation: portrait) {
@@ -24,7 +28,10 @@
   left: 0;
   right: 0;
   top: 65%;
-  background-color: rgba(47, 46, 46, 0.99);
+  //background-color: rgba(47, 46, 46, 0.99);
+  background-size: cover;
+  background: rgba(0, 0, 0, 0.55) url('../../assets/paper.jpg') no-repeat;
+  background-blend-mode: darken;
   display: grid;
   place-items: center;
 }
