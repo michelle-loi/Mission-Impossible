@@ -39,10 +39,12 @@ const Bomb = ({
   const onToggle = (toggleState) => {
     toggleState ? requestAccess() : revokeAccess();
     setDontHoldBomb(toggleState);
+    playAudio(new Audio(clickSFX), 1, 0);
   };
 
   const handleToggles = () => {
     setShowToggles((prev) => !prev);
+    playAudio(new Audio(clickSFX), 1, 0);
   };
 
   return (
