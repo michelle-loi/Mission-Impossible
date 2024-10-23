@@ -3,14 +3,18 @@ import Toggles from '../../components/toggles/Toggles.jsx';
 import Modal from '../../components/modal/Modal.jsx';
 import LightSensor from '../../components/battery/LightSensor.jsx';
 import CompassWires from '../../components/compass/CompassWires.jsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Passcode.scss';
 import { useNavigate } from 'react-router-dom';
+import ControlBtn from '../../components/controlbtn/ControlBtn.jsx';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const Passcode = () => {
   const [side, setSide] = useState('front');
   const [puzzleNum, setPuzzleNum] = useState(null);
   const [dontHoldBomb, setDontHoldBomb] = useState(false);
+  const [showToggles, setShowToggles] = useState(false);
+
   const clearPuzzle = () => {
     setPuzzleNum(null);
   };
@@ -41,6 +45,20 @@ const Passcode = () => {
     }
   };
 
+  // If the toggles were shown and the user holds the bomb, when they
+  // release the bomb make sure the toggles are hidden as well
+  useEffect(() => {
+    if (dontHoldBomb) {
+      setShowToggles(false);
+    }
+  }, [dontHoldBomb]);
+
+  const ToggleVariants = {
+    initial: { opacity: 0, y: 100 }, // start below
+    in: { opacity: 1, y: 0 }, // animate into view
+    exit: { opacity: 0, y: 100 }, // animate below again
+  };
+
   return (
     <div
       className="passcode_screen"
@@ -48,8 +66,12 @@ const Passcode = () => {
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      <Bomb side={side} setPuzzleNum={setPuzzleNum} setDontHoldBomb={setDontHoldBomb}/>
-      <Toggles isDisabled={dontHoldBomb} side={side} setSide={setSide} />
+      <Bomb
+        side={side}
+        setPuzzleNum={setPuzzleNum}
+        setDontHoldBomb={setDontHoldBomb}
+        setShowToggles={setShowToggles}
+      />
 
       {/* Puzzles */}
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 1}>
@@ -75,6 +97,27 @@ const Passcode = () => {
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 6}>
         <div>Puzzle 6</div>
       </Modal>
+
+      <div className="passcode__attempt">
+        <ControlBtn text={'Reset'} />
+        <ControlBtn text={'Defuse'} />
+      </div>
+
+      <AnimatePresence>
+        {showToggles && !dontHoldBomb && (
+          <motion.div
+            key={'toggle-unique-key'}
+            className="passcode__toggles"
+            initial="initial"
+            animate="in"
+            exit="exit"
+            variants={ToggleVariants}
+            transition={{ duration: 0.4 }}
+          >
+            <Toggles isDisabled={dontHoldBomb} side={side} setSide={setSide} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

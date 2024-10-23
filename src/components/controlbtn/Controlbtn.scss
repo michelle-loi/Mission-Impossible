@@ -1,0 +1,28 @@
+.control_btn_container {
+  --hue: 0;
+}
+
+.control_btn__outline {
+  border: 10px solid gray;
+}
+
+.control_btn {
+  background: hsl(var(--hue), 100%, 30%);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline-offset: 4px;
+}
+
+.control_btn__front {
+  display: block;
+  padding: 10px 32px;
+  font-size: 1.5rem;
+  background: hsl(var(--hue), 100%, 47%);
+  color: white;
+  transform: translateY(-6px);
+}
+
+.control_btn:active .control_btn__front {
+  transform: translateY(-2px);
+}
