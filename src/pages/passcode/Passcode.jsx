@@ -48,10 +48,10 @@ const Passcode = () => {
   // If the toggles were shown and the user holds the bomb, when they
   // release the bomb make sure the toggles are hidden as well
   useEffect(() => {
-    if (dontHoldBomb) {
+    if (dontHoldBomb || !puzzleNum) {
       setShowToggles(false);
     }
-  }, [dontHoldBomb]);
+  }, [dontHoldBomb, puzzleNum]);
 
   const ToggleVariants = {
     initial: { opacity: 0, y: 100 }, // start below
