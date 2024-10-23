@@ -104,7 +104,7 @@ const Passcode = () => {
       </div>
 
       <AnimatePresence>
-        {showToggles && !dontHoldBomb && (
+        {showToggles && !dontHoldBomb && !puzzleNum && (
           <motion.div
             key={'toggle-unique-key'}
             className="passcode__toggles"
