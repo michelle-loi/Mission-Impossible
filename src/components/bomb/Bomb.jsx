@@ -21,7 +21,13 @@ import ControlBtn from '../controlbtn/ControlBtn.jsx';
  * This code is based on: https://3dtransforms.desandro.com/box
  * @returns Bomb element
  */
-const Bomb = ({ side, setPuzzleNum, setDontHoldBomb, setShowToggles }) => {
+const Bomb = ({
+  side,
+  setPuzzleNum,
+  setDontHoldBomb,
+  dontHoldBomb,
+  setShowToggles,
+}) => {
   const handleClick = (puzzleNum) => {
     setPuzzleNum(puzzleNum);
     playAudio(new Audio(clickSFX), 1, 0);
@@ -48,7 +54,12 @@ const Bomb = ({ side, setPuzzleNum, setDontHoldBomb, setShowToggles }) => {
             labelOff="Hold"
             labelOn="Hold"
           />
-          <ControlBtn text={'Manual'} color={255} handleClick={handleToggles} />
+          <ControlBtn
+            text={'Manual'}
+            color={255}
+            handleClick={handleToggles}
+            disable={dontHoldBomb}
+          />
         </div>
         <div className={`bomb show-${side}`} style={cssTransformInverse}>
           <div className="bomb__face bomb__face--front">

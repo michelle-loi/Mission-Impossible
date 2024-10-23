@@ -71,6 +71,7 @@ const Passcode = () => {
         setPuzzleNum={setPuzzleNum}
         setDontHoldBomb={setDontHoldBomb}
         setShowToggles={setShowToggles}
+        dontHoldBomb={dontHoldBomb}
       />
 
       {/* Puzzles */}

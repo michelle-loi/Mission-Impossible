@@ -26,3 +26,10 @@
 .control_btn:active .control_btn__front {
   transform: translateY(-2px);
 }
+
+.control_btn--disable,
+.control_btn__front--disable {
+  background: hsl(var(--hue), 100%, 60%);
+  pointer-events: none;
+  transform: translateY(-2px);
+}
