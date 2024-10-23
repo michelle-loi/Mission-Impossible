@@ -10,7 +10,7 @@
 
 // https://www.joshwcomeau.com/animation/3d-button/
 .gyro_switch__pushable {
-  background: #770101;
+  background: #313030;
   padding: 0;
   cursor: pointer;
   outline-offset: 4px;
@@ -19,7 +19,7 @@
   display: block;
   padding: 10px 32px;
   font-size: 1.5rem;
-  background: #d30808;
+  background: #424242;
   transform: translateY(-6px);
 }
 
@@ -35,7 +35,7 @@
   .gyro_switch__checkbox:checked
   + .gyro_switch__outline
   > .gyro_switch__pushable {
-  background-color: red;
+  background-color: #4f4e4e;
 }
 
 .gyro_switch__label
@@ -43,5 +43,5 @@
   + .gyro_switch__outline
   .gyro_switch__front {
   transform: translateY(-2px);
-  background-color: red;
+  background-color: #4f4e4e;
 }

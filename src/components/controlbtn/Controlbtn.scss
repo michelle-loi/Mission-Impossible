@@ -18,7 +18,7 @@
   display: block;
   padding: 10px 32px;
   font-size: 1.5rem;
-  background: hsl(var(--hue), 100%, 47%);
+  background: hsl(var(--hue), 100%, 42%);
   color: white;
   transform: translateY(-6px);
 }
@@ -29,7 +29,7 @@
 
 .control_btn--disable,
 .control_btn__front--disable {
-  background: hsl(var(--hue), 100%, 60%);
+  background: hsl(var(--hue), 100%, 52%);
   pointer-events: none;
   transform: translateY(-2px);
 }

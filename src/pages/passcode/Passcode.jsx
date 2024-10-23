@@ -100,7 +100,7 @@ const Passcode = () => {
       </Modal>
 
       <div className="passcode__attempt">
-        <ControlBtn text={'Reset'} />
+        <ControlBtn text={'Reset'} color={28} />
         <ControlBtn text={'Defuse'} />
       </div>
 
