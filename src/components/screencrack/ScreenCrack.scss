@@ -1,7 +1,14 @@
+#react-p5-wrapper #defaultCanvas0 {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 .timer__container {
     text-align: center;
     display: block;
-    margin-top: 2rem;
+    padding-top: 2rem;
 }
 
 .timer__time {
