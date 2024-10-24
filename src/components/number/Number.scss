@@ -1,0 +1,78 @@
+.body {
+    font-family: var("HK Grotesk");
+    background-color: white; /* Set background color to white */
+    display: flex; /* Center body content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Full viewport height */
+    margin: 0; /* Remove default margin */
+    overflow: hidden; /* Prevent scrolling */
+}
+
+#number-container {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally */
+    justify-content: space-between; /* Space children evenly */
+    height: 90vh; /* Set a height to fit the viewport */
+    width: 90vw; /* Set a width to fit the viewport */
+    padding: 15px; /* Padding inside the container */
+    background-color: #f9f9f9; /* Background color */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    text-align: center; /* Center text */
+}
+
+.webcam-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Full width */
+    height: 40%; /* Use a percentage for better responsiveness */
+    border: 2px solid #333;
+    border-radius: 10px;
+    background-color: #f7f7f7; /* Background color */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Shadow */
+    margin-bottom: 2%; /* Reduced margin below */
+}
+
+#text-container {
+    text-align: center; /* Center text */
+    font-size: 16px; /* Font size */
+    font-weight: bold; /* Bold font */
+    color: #ff4d4d; /* Text color */
+    margin: 0; /* Reduced space above and below */
+}
+
+
+#label-container {
+    display: flex;
+    flex-direction: column; /* Stack labels vertically */
+    align-items: center; /* Center align labels */
+    width: 100%; /* Full width */
+    text-align: center; /* Center text */
+    color: red; /* Text color */
+    font-size: 14px; /* Font size */
+    font-weight: bold; /* Bold font */
+    margin: 0;
+}
+
+
+#response-container {
+    text-align: center; /* Center text */
+    font-size: 16px; /* Font size */
+    font-weight: bold; /* Bold font */
+    color: #ff4d4d; /* Text color */
+    margin: 0; /* Reduced space above and below */
+}
+
+#number-btn {
+    margin-top: 2%; /* Reduced space above button */
+    padding: 10px 20px; /* Padding inside button */
+    font-size: 1rem; /* Font size */
+    background-color: black; /* Button color */
+    color: white; /* Text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Change cursor to pointer */
+}
