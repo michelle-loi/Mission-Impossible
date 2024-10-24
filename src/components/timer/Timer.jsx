@@ -1,9 +1,6 @@
 import {useState, useEffect} from 'react';
 import './Timer.scss';
 import { ReactP5Wrapper } from "@p5-wrapper/react";
-import shortBeepSFX from '../../assets/beep_short.mp3';
-import buttonClickSFX from '../../assets/button_click.mp3';
-import { Buffer } from 'buffer';
 
 function pad(num, size) {
     num = num.toString();
