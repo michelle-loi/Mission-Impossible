@@ -8,6 +8,8 @@ export default function MazeGame() {
   const [userPosition, setUserPosition] = useState([0, 0]);
   const [lastMoveTime, setLastMoveTime] = useState(0);
   const [attempts, setAttempts] = useState(0); // Track number of attempts
+  const [selectedCellX, setSelectedCellX] = useState(null); // Track selected cell
+  const [selectedCellY, setSelectedCellY] = useState(null); // Track selected cell
   const moveDelay = 200; // Delay in milliseconds
 
   const fixedMaze = [
@@ -82,6 +84,7 @@ export default function MazeGame() {
       maze[newPosition[0]][newPosition[1]] !== 1 // Check if the cell is not a wall
     ) {
       setUserPosition(newPosition);
+      //setSelectedCell(newPosition);
     }
   };
 
@@ -120,15 +123,33 @@ export default function MazeGame() {
     setUserPosition([0, 0]);
     setStatus("playing");
     setAttempts(0); // Reset attempts
+    setSelectedCellX(null); // Reset selected cell
+    setSelectedCellY(null);
   };
 
+  // Function to handle selecting a cell
+  const handleCellClick = (rowIndex, colIndex) => {
+    setSelectedCellX(rowIndex);
+    setSelectedCellY(colIndex);
+    if (rowIndex === winningCell[0] && colIndex === winningCell[1]) {
+      setStatus("won"); // Winning condition remains the same
+    } else {
+      setStatus("select");
+    }
+  };
+
+  
+
   const handleConfirm = () => {
+    setSelectedCellX(userPosition[0]);
+    setSelectedCellY(userPosition[1]);
     if (userPosition[0] === winningCell[0] && userPosition[1] === winningCell[1]) {
       console.log("You've won!");
       setStatus("won");
     } else {
       if (attempts < 2) {
         setAttempts((prev) => prev + 1); // Increment attempts
+        setStatus("select")
         console.log(`Incorrect! You have ${2 - attempts} attempts left.`);
       } else {
         console.log("Not allowed!");
@@ -144,34 +165,55 @@ export default function MazeGame() {
           row.map((cell, colIndex) => (
             <div
               key={`${rowIndex}-${colIndex}`}
-              className={`cell ${status === "won" ? "winning-cell" : ""} ${cheatMode && (userPosition[0] === rowIndex && userPosition[1] === colIndex) ? "hint" : ""}`}
+              className={`cell 
+                ${status === "won" && rowIndex === winningCell[0] && colIndex === winningCell[1] ? "winning-cell" : ""} 
+                ${status === "select" && rowIndex === selectedCellX && colIndex === selectedCellY ? "selected" : ""}
+              `}
+              //onClick={() => handleConfirm()}
             >
               {userPosition[0] === rowIndex && userPosition[1] === colIndex && <div className="player"></div>}
             </div>
           ))
         )}
       </div>
+
       {status === "won" && (
         <div className="win-message">
           <h2>You've won!</h2>
+          <div className="hint-message">The clicked cell was row {selectedCellX} and column {selectedCellY}</div>
           <button className="maze-btn" onClick={restartGame}>Restart</button>
         </div>
       )}
+
+      {status === "select" && (
+        <div className="win-message">
+          <h2>You Made a Choice!</h2>
+          <div className="hint-message">The clicked cell was row {selectedCellX} and column {selectedCellY}</div>
+          <button className="maze-btn" onClick={restartGame}>Restart</button>
+        </div>
+      )}
+
       {status === "notAllowed" && (
         <div className="not-allowed-message">
           <h2>Not allowed!</h2>
           <button className="maze-btn" onClick={restartGame}>Restart</button>
         </div>
       )}
+
       <button className="maze-btn" onClick={() => setCheatMode(!cheatMode)}>
         {cheatMode ? "Disable Cheat Mode" : "Enable Cheat Mode"}
       </button>
+      
       <button className="maze-btn" onClick={handleConfirm}>Confirm</button>
+
       {cheatMode && (
         <div className="hint-message">
-          Hint: The winning cell is at row {winningCell[0]}, column {winningCell[1]} and length of column is {maxColIndex}
+          Hint: The winning cell is at row {winningCell[0]}, column {winningCell[1]}, and the length of the column is {maxColIndex}
+  
         </div>
+        
       )}
+
       {status === "notAllowed" && attempts >= 3 && (
         <div className="attempts-message">
           <h3>You have used all your attempts.</h3>
