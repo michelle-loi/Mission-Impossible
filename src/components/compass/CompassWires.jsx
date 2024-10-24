@@ -73,6 +73,9 @@ const CompassWires = () => {
         {/*    </li>*/}
         {/*  ))}*/}
         {/*</ul>*/}
+        {resistorsSelected.map((resistor, index) => (
+          <div className="compass__marker" key={`marker-${index}`} />
+        ))}
       </div>
     </div>
   );
