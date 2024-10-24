@@ -10,7 +10,7 @@ export default function MazeGame() {
   const [attempts, setAttempts] = useState(0); // Track number of attempts
   const [selectedCellX, setSelectedCellX] = useState(null); // Track selected cell
   const [selectedCellY, setSelectedCellY] = useState(null); // Track selected cell
-  const moveDelay = 200; // Delay in milliseconds
+  const moveDelay = 10000000000; // Delay in milliseconds
 
   const fixedMaze = [
     [[0, 1, 1, 0], [0, 1, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1], [0, 1, 0, 1], [0, 1, 1, 1], [0, 1, 0, 1], [0, 1, 1, 1], [0, 1, 0, 1], [0, 0, 1, 1]],
@@ -52,27 +52,27 @@ export default function MazeGame() {
     let newPosition = [...userPosition];
   
     // Move right while gamma indicates right movement
-    while (gamma > 5) {
+    while (gamma > 40) {
       newPosition[1] = Math.min(newPosition[1] + 1, maze[0].length - 1); // Move right
-      gamma -= 5; // Decrease gamma to eventually exit the loop
+      gamma -= 40; // Decrease gamma to eventually exit the loop
     }
   
     // Move left while gamma indicates left movement
-    while (gamma < -5) {
+    while (gamma < -40) {
       newPosition[1] = Math.max(newPosition[1] - 1, 0); // Move left
-      gamma += 5; // Increase gamma to eventually exit the loop
+      gamma += 40; // Increase gamma to eventually exit the loop
     }
   
     // Move down while beta indicates downward movement
-    while (beta > 5) {
+    while (beta > 40) {
       newPosition[0] = Math.min(newPosition[0] + 1, maze.length - 1); // Move down
-      beta -= 5; // Decrease beta to eventually exit the loop
+      beta -= 40; // Decrease beta to eventually exit the loop
     }
   
     // Move up while beta indicates upward movement
-    while (beta < -5) {
+    while (beta < -40) {
       newPosition[0] = Math.max(newPosition[0] - 1, 0); // Move up
-      beta += 5; // Increase beta to eventually exit the loop
+      beta += 40; // Increase beta to eventually exit the loop
     }
   
     // Only update user position if it's within bounds
