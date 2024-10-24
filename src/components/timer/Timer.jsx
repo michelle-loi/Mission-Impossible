@@ -1,7 +1,9 @@
 import {useState, useEffect} from 'react';
-import './ScreenCrack.scss';
+import './Timer.scss';
 import { ReactP5Wrapper } from "@p5-wrapper/react";
-import p5functions from "p5";
+import shortBeepSFX from '../../assets/beep_short.mp3';
+import buttonClickSFX from '../../assets/button_click.mp3';
+import { Buffer } from 'buffer';
 
 function pad(num, size) {
     num = num.toString();
@@ -73,17 +75,51 @@ function sketch(p5) {
     }
 }
 
-const ScreenCrack = () => {
+let buffers = [];
+const context = new AudioContext();
+
+function loadBuffer(src, clip) {
+    window.fetch(src)
+    .then(response => response.arrayBuffer())
+    .then(arrayBuffer => context.decodeAudioData(arrayBuffer))
+    .then(audioBuffer => {
+        buffers[clip] = audioBuffer;
+    });
+}
+
+function playSound(audioBuffer) {
+    const source = context.createBufferSource();
+    source.buffer = audioBuffer;
+    source.connect(context.destination);
+    source.start();
+}
+
+loadBuffer('/src/assets/beep_short.mp3', 'beep_short');
+loadBuffer('/src/assets/button_click.mp3', 'button_click');
+
+const Timer = () => {
     const [timeLeft, setTimeLeft] = useState(30);
-    const [enableNumpad, setEnableNumpad] = useState(false);
+    const [enableNumpad, setEnableNumpad] = useState(true);
+    const [passcode, setPasscode] = useState("");
+
+    const typeIn = (number) => {
+        setPasscode(passcode + `${number}`);
+        playSound(buffers['button_click']);
+    }
 
     useEffect(() => {
         if(timeLeft===0){
-           return;
+            setEnableNumpad(false);
+            return;
+         }
+        
+        if(passcode.slice(-4) === '6969' && timeLeft > 0) {
+            return;
         }
 
         const intervalId = setInterval(() => {
-          setTimeLeft(timeLeft - 1);
+            playSound(buffers['beep_short']);
+            setTimeLeft(timeLeft - 1);
         }, 1000);
     
         // clear interval on re-render to avoid memory leaks
@@ -101,21 +137,28 @@ const ScreenCrack = () => {
                 (
                     <div className="disabled_numpad__container">
                         {[...Array(9)].map((x, i) =>
-                            <span className="numpad__number">{i + 1}</span>
+                            <span key={i} className="numpad__number">{i + 1}</span>
                         )}
                     </div>
                 ) :
                 (
                     <div className="numpad__container">
                         {[...Array(9)].map((x, i) =>
-                            <span key={i} className="numpad__number">{i + 1}</span>
+                            
+                            <div className="numpad__number">
+                                <div className="numpad__number__pushable">
+                                    <button key={i} className="numpad__number__front" onClick={() => typeIn(`${i + 1}`)}>
+                                        {i + 1}
+                                    </button>
+                                </div>
+                            </div>
                         )}
                     </div>
                 )
             }
-            <ReactP5Wrapper id="screencrack_p5" sketch={sketch} setEnableNumpad={setEnableNumpad}></ReactP5Wrapper>
+            <ReactP5Wrapper sketch={sketch} setEnableNumpad={setEnableNumpad}></ReactP5Wrapper>
         </div>
     );
 }
 
-export default ScreenCrack;
+export default Timer;

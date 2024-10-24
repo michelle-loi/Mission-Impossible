@@ -39,10 +39,28 @@
 }
 
 .numpad__container .numpad__number {
-    border: 0.5rem solid black;
+    border: 0.5rem solid gray;
+}
+
+.numpad__number__pushable {
+    background: #770101;
+    padding: 0;
+    cursor: pointer;
+    outline-offset: 4px;
+}
+.numpad__number__front {
     text-align: center;
     vertical-align: middle;
-    background-color: red;
     color: white;
     font-size: 4rem;
+    transform: translateY(-6px);
+    background: red;
+    width: 100%;
+    border: none;
+    user-select: none;
+}
+
+.numpad__number__front:active  {
+    transform: translateY(-2px);
+    background-color: red;
 }

@@ -3,7 +3,7 @@ import Toggles from '../../components/toggles/Toggles.jsx';
 import Modal from '../../components/modal/Modal.jsx';
 import LightSensor from '../../components/battery/LightSensor.jsx';
 import CompassWires from '../../components/compass/CompassWires.jsx';
-import ScreenCrack from '../../components/screencrack/ScreenCrack.jsx';
+import Timer from '../../components/timer/Timer.jsx';
 import CutWire from '../../components/cutwire/CutWire.jsx';
 import { useState } from 'react';
 import './Passcode.scss';
@@ -83,7 +83,7 @@ const Passcode = () => {
       </Modal>
 
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 5}>
-        <ScreenCrack />
+        <Timer />
       </Modal>
 
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 6}>
