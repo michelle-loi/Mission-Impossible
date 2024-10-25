@@ -63,7 +63,7 @@ const Compass = ({ heading = 0, setHeading, pendingResistor }) => {
           );
         }
       } else {
-        alert('Compass heading may not be precise.');
+        alert('Compass heading may not be precise');
       }
     };
 

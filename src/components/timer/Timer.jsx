@@ -94,7 +94,7 @@ function playSound(audioBuffer) {
 loadBuffer('/src/assets/beep_short.mp3', 'beep_short');
 loadBuffer('/src/assets/button_click.mp3', 'button_click');
 
-const Timer = () => {
+const Timer = ({setPuzzleValue}) => {
     const [timeLeft, setTimeLeft] = useState(30);
     const [enableNumpad, setEnableNumpad] = useState(true);
     const [passcode, setPasscode] = useState("");
@@ -105,12 +105,13 @@ const Timer = () => {
     }
 
     useEffect(() => {
+        setPuzzleValue({
+            timeLeft: timeLeft,
+            passcode: passcode
+        });
+
         if(timeLeft===0){
             setEnableNumpad(false);
-            return;
-         }
-        
-        if(passcode.slice(-4) === '6969' && timeLeft > 0) {
             return;
         }
 

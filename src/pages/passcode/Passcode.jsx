@@ -5,7 +5,7 @@ import LightSensor from '../../components/battery/LightSensor.jsx';
 import CompassWires from '../../components/compass/CompassWires.jsx';
 import Timer from '../../components/timer/Timer.jsx';
 import CutWire from '../../components/cutwire/CutWire.jsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Passcode.scss';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,12 +14,16 @@ const Passcode = () => {
   const [puzzleNum, setPuzzleNum] = useState(null);
   const [dontHoldBomb, setDontHoldBomb] = useState(false);
   const [puzzlesDone, setPuzzlesDone] = useState({
-    battery: false,
-    cutWire: false
+    compassWires: false,
+    lightSensor: false,
+    cutWire: false,
+    timer: false
   });
   const [correctPuzzleValues, setCorrectPuzzleValues] = useState({
-    battery: false,
-    cutWire: false
+    compassWires: false,
+    lightSensor: false,
+    cutWire: false,
+    timer: false
   });
   const clearPuzzle = () => {
     setPuzzleNum(null);
@@ -85,8 +89,22 @@ const Passcode = () => {
           }}/>
       </Modal>
 
-      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 2}>
-        <CompassWires />
+      <Modal closeModal={() => { 
+          clearPuzzle();
+          setPuzzlesDone({
+            ...puzzlesDone,
+            compassWires: true
+          });
+        }
+      } 
+        isVisible={puzzleNum === 2}>
+        <CompassWires setPuzzleValue={(value) => {
+            setCorrectPuzzleValues({
+              ...correctPuzzleValues,
+              // TODO: replace with actual condition for passcode
+              compassWires: (true)
+            });
+          }}/>
       </Modal>
 
       <Modal 
@@ -111,8 +129,22 @@ const Passcode = () => {
         <div>Puzzle 4</div>
       </Modal>
 
-      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 5}>
-        <Timer />
+      <Modal 
+        closeModal={() => { 
+            clearPuzzle();
+            setPuzzlesDone({
+              ...puzzlesDone,
+              timer: true
+            });
+          }
+        } 
+        isVisible={puzzleNum === 5}>
+        <Timer setPuzzleValue={(value) => {
+            setCorrectPuzzleValues({
+              ...correctPuzzleValues,
+              timer: (value.timeLeft > 0 && value.passcode.split('-4') === '6969')
+            });
+          }}/>
       </Modal>
 
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 6}>

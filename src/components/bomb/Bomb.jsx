@@ -61,7 +61,7 @@ const Bomb = ({ side, setPuzzleNum, setDontHoldBomb, puzzlesDone }) => {
                 draggable={false}
               />
             </button>
-            <Light done={puzzlesDone.battery}/>
+            <Light done={puzzlesDone.lightSensor}/>
           </div>
           <div className="bomb__face bomb__face--back">
             <img
@@ -78,7 +78,7 @@ const Bomb = ({ side, setPuzzleNum, setDontHoldBomb, puzzlesDone }) => {
                 draggable={false}
               />
             </button>
-            <Light />
+            <Light done={puzzlesDone.lightSensor}/>
           </div>
           <div className="bomb__face bomb__face--right">
             <img
@@ -124,7 +124,7 @@ const Bomb = ({ side, setPuzzleNum, setDontHoldBomb, puzzlesDone }) => {
                 draggable={false}
               />
             </button>
-            <Light />
+            <Light done={puzzlesDone.timer}/>
           </div>
           <div className="bomb__face bomb__face--bottom">
             <img
