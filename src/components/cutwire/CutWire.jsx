@@ -8,7 +8,11 @@ function sketch(p5) {
     let red, yellow, purple;
     let redCut = false, yellowCut = false, purpleCut = false;
     let flashlightOn = false;
-    let setPuzzleSolved;
+    let setPuzzleValue, puzzleValue = {
+        redIsCut: false,
+        purpleIsCut: false,
+        yellowIsCut: false,
+    };
 
     p5.setup = () => {
         p5.createCanvas(p5.windowWidth, p5.windowHeight);
@@ -45,7 +49,7 @@ function sketch(p5) {
 
     p5.updateWithProps = props => {
         flashlightOn = props.flashlightOn;
-        setPuzzleSolved = props.setPuzzleSolved;
+        setPuzzleValue = props.setPuzzleValue;
     };
       
     function requestAccess() {
@@ -110,10 +114,10 @@ function sketch(p5) {
         p5.rect(p5.width/2 - 20, cy-99, 40, 198);
 
         const redFullHeight = 80;
-        red = drawWireSegment('red', p5.height*5/6, redFullHeight, redCut);
-        purple = drawWireSegment('purple', p5.height*3/5, redFullHeight, purpleCut);
+        red = drawWireSegment('red', p5.height*5/6, redFullHeight, puzzleValue.redIsCut);
+        purple = drawWireSegment('purple', p5.height*3/5, redFullHeight, puzzleValue.purpleIsCut);
         const yellowFullHeight = 80;
-        yellow = drawWireSegment('yellow', p5.height*1/3, yellowFullHeight, yellowCut);
+        yellow = drawWireSegment('yellow', p5.height*1/3, yellowFullHeight, puzzleValue.yellowIsCut);
 
         if(!flashlightOn) {
             p5.clear();
@@ -128,27 +132,23 @@ function sketch(p5) {
         }
 
         if((p5.mouseX >= p5.width/2 - 20 && p5.mouseX <= p5.width/2+20) && (p5.mouseY >= red.y && p5.mouseY <= red.y + red.height)) {
-            redCut = true;
+            puzzleValue.redIsCut = true;
         } else if((p5.mouseX >= p5.width/2 - 20 && p5.mouseX <= p5.width/2+20) && (p5.mouseY >= purple.y && p5.mouseY <= purple.y + purple.height)) {
-            purpleCut = true;
+            puzzleValue.purpleIsCut = true;
         } else if((p5.mouseX >= p5.width/2 - 20 && p5.mouseX <= p5.width/2+20) && (p5.mouseY >= yellow.y && p5.mouseY <= yellow.y + yellow.height)) {
-            yellowCut = true;
+            puzzleValue.yellowIsCut = true;
         }
 
-        if(yellowCut && redCut && !purpleCut) {
-            setPuzzleSolved(true);
-        } else {
-            setPuzzleSolved(false);
-        }
+        setPuzzleValue(puzzleValue);
       } 
 }
 
-const CutWire = ({setPuzzleSolved}) => {
+const CutWire = ({setPuzzleValue}) => {
     const [flashlightOn, setFlashlightOn] = useState(false);
 
     return (
         <div>
-            <ReactP5Wrapper sketch={sketch} flashlightOn={flashlightOn} setPuzzleSolved={setPuzzleSolved}></ReactP5Wrapper>
+            <ReactP5Wrapper sketch={sketch} flashlightOn={flashlightOn} setPuzzleValue={setPuzzleValue}></ReactP5Wrapper>
             <button onClick={() => setFlashlightOn(!flashlightOn)} className="flashlight__button">{flashlightOn ? 'On' : 'Off'}</button>
         </div>
     );

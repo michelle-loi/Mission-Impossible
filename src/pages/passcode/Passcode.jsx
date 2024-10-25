@@ -70,11 +70,11 @@ const Passcode = () => {
       </Modal>
 
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 3}>
-        <CutWire setPuzzleSolved={(solved) => {
+        <CutWire setPuzzleValue={(value) => {
             setPuzzlesDone({
               ...puzzlesDone,
-              CutWire: solved
-            })
+              CutWire: (value.redIsCut && value.yellowIsCut && !value.purpleIsCut)
+            });
           }}/>
       </Modal>
 
