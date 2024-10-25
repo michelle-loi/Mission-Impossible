@@ -10,6 +10,8 @@ import './Passcode.scss';
 import { useNavigate } from 'react-router-dom';
 import ControlBtn from '../../components/controlbtn/ControlBtn.jsx';
 import { AnimatePresence, motion } from 'framer-motion';
+import { playAudio } from '../../utils/useAudio.jsx';
+import clickSFX from '../../assets/click.mp3';
 
 const Passcode = () => {
   const [side, setSide] = useState('front');
@@ -21,8 +23,10 @@ const Passcode = () => {
     cutWire: false,
     timer: false,
   };
-  const [puzzlesDone, setPuzzlesDone] = useState({...defaultPuzzlesState});
-  const [correctPuzzleValues, setCorrectPuzzleValues] = useState({...defaultPuzzlesState});
+  const [puzzlesDone, setPuzzlesDone] = useState({ ...defaultPuzzlesState });
+  const [correctPuzzleValues, setCorrectPuzzleValues] = useState({
+    ...defaultPuzzlesState,
+  });
   const [showToggles, setShowToggles] = useState(false);
 
   const clearPuzzle = () => {
@@ -77,6 +81,7 @@ const Passcode = () => {
       alert('fails');
       alert(JSON.stringify(correctPuzzleValues));
     }
+    playAudio(new Audio(clickSFX), 1, 0);
   };
 
   return (
@@ -110,8 +115,7 @@ const Passcode = () => {
           setPuzzleValue={(value) => {
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
-              timer:
-                value.timeLeft > 0 && value.passcode.slice(-4) === '6969',
+              timer: value.timeLeft > 0 && value.passcode.slice(-4) === '6969',
             });
           }}
         />
@@ -213,10 +217,15 @@ const Passcode = () => {
       </Modal>
 
       <div className="passcode__attempt">
-        <ControlBtn text={'Reset'} color={28} handleClick={() => {
-          setPuzzlesDone({...defaultPuzzlesState});
-          setCorrectPuzzleValues({...defaultPuzzlesState});
-        }}/>
+        <ControlBtn
+          text={'Reset'}
+          color={28}
+          handleClick={() => {
+            setPuzzlesDone({ ...defaultPuzzlesState });
+            setCorrectPuzzleValues({ ...defaultPuzzlesState });
+            playAudio(new Audio(clickSFX), 1, 0);
+          }}
+        />
         <ControlBtn text={'Defuse'} handleClick={checkPasscode} />
       </div>
 
