@@ -22,9 +22,9 @@ const Passcode = () => {
     timer: false,
   });
   const [correctPuzzleValues, setCorrectPuzzleValues] = useState({
-    compassWires: false,
-    lightSensor: false,
-    cutWire: false,
+    compassWires: true,
+    lightSensor: true,
+    cutWire: true,
     timer: false,
   });
   const [showToggles, setShowToggles] = useState(false);
@@ -114,7 +114,7 @@ const Passcode = () => {
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
               timer:
-                value.timeLeft > 0 && value.passcode.split('-4') === '6969',
+                value.timeLeft > 0 && value.passcode.slice(-4) === '6969',
             });
           }}
         />

@@ -100,7 +100,7 @@ loadBuffer('/src/assets/button_click.mp3', 'button_click');
 
 const Timer = ({ setPuzzleValue }) => {
   const [timeLeft, setTimeLeft] = useState(30);
-  const [enableNumpad, setEnableNumpad] = useState(true);
+  const [enableNumpad, setEnableNumpad] = useState(false);
   const [passcode, setPasscode] = useState('');
 
   const typeIn = (number) => {
