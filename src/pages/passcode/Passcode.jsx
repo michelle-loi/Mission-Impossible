@@ -3,6 +3,7 @@ import Toggles from '../../components/toggles/Toggles.jsx';
 import Modal from '../../components/modal/Modal.jsx';
 import LightSensor from '../../components/battery/LightSensor.jsx';
 import CompassWires from '../../components/compass/CompassWires.jsx';
+import CutWire from '../../components/cutwire/CutWire.jsx';
 import { useState } from 'react';
 import './Passcode.scss';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +12,9 @@ const Passcode = () => {
   const [side, setSide] = useState('front');
   const [puzzleNum, setPuzzleNum] = useState(null);
   const [dontHoldBomb, setDontHoldBomb] = useState(false);
+  const [puzzlesDone, setPuzzlesDone] = useState({
+    CutWire: false
+  });
   const clearPuzzle = () => {
     setPuzzleNum(null);
   };
@@ -48,7 +52,11 @@ const Passcode = () => {
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      <Bomb side={side} setPuzzleNum={setPuzzleNum} setDontHoldBomb={setDontHoldBomb}/>
+      <Bomb 
+        side={side}
+        setPuzzleNum={setPuzzleNum}
+        setDontHoldBomb={setDontHoldBomb}
+        puzzlesDone={puzzlesDone} />
       <Toggles isDisabled={dontHoldBomb} side={side} setSide={setSide} />
 
       {/* Puzzles */}
@@ -61,7 +69,12 @@ const Passcode = () => {
       </Modal>
 
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 3}>
-        <div>Puzzle 3</div>
+        <CutWire setPuzzleSolved={(solved) => {
+            setPuzzlesDone({
+              ...puzzlesDone,
+              CutWire: solved
+            })
+          }}/>
       </Modal>
 
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 4}>

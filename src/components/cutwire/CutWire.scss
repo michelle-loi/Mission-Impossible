@@ -1,0 +1,26 @@
+button.flashlight__button {
+    position: absolute;
+    top: 0;
+    margin: 1rem;
+}
+
+button.flashlight__button {
+    position: absolute;
+    top: 0;
+    box-shadow: 3px 4px 0 0 #7a7a7a;
+    background: #c62d1f linear-gradient(to bottom, #fcfcfc 5%, #f6f5f5 100%);
+    border-radius: 42px;
+    display: inline-block;
+    cursor: pointer;
+    color: black;
+    padding: 25px 25px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #810e05;
+    z-index: 10;
+    font-size: 1.5rem;
+    -webkit-tap-highlight-color: transparent;
+}
+  
+button.flashlight__button:hover {
+    background: #c0bfbf linear-gradient(to bottom, #c0bfbf 5%, #f1f0f0 100%);
+}

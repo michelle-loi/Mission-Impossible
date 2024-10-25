@@ -20,7 +20,7 @@ import clickSFX from '../../assets/click.mp3';
  * This code is based on: https://3dtransforms.desandro.com/box
  * @returns Bomb element
  */
-const Bomb = ({ side, setPuzzleNum, setDontHoldBomb }) => {
+const Bomb = ({ side, setPuzzleNum, setDontHoldBomb, puzzlesDone }) => {
   const handleClick = (puzzleNum) => {
     setPuzzleNum(puzzleNum);
     playAudio(new Audio(clickSFX), 1, 0);
@@ -95,7 +95,7 @@ const Bomb = ({ side, setPuzzleNum, setDontHoldBomb }) => {
                 draggable={false}
               />
             </button>
-            <Light />
+            <Light done={puzzlesDone.CutWire} />
           </div>
           <div className="bomb__face bomb__face--left">
             <img
