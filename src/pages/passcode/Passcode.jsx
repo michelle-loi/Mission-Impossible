@@ -15,18 +15,14 @@ const Passcode = () => {
   const [side, setSide] = useState('front');
   const [puzzleNum, setPuzzleNum] = useState(null);
   const [dontHoldBomb, setDontHoldBomb] = useState(false);
-  const [puzzlesDone, setPuzzlesDone] = useState({
+  const defaultPuzzlesState = {
     compassWires: false,
     lightSensor: false,
     cutWire: false,
     timer: false,
-  });
-  const [correctPuzzleValues, setCorrectPuzzleValues] = useState({
-    compassWires: false,
-    lightSensor: false,
-    cutWire: false,
-    timer: false,
-  });
+  };
+  const [puzzlesDone, setPuzzlesDone] = useState({...defaultPuzzlesState});
+  const [correctPuzzleValues, setCorrectPuzzleValues] = useState({...defaultPuzzlesState});
   const [showToggles, setShowToggles] = useState(false);
 
   const clearPuzzle = () => {
@@ -217,7 +213,10 @@ const Passcode = () => {
       </Modal>
 
       <div className="passcode__attempt">
-        <ControlBtn text={'Reset'} color={28} />
+        <ControlBtn text={'Reset'} color={28} handleClick={() => {
+          setPuzzlesDone({...defaultPuzzlesState});
+          setCorrectPuzzleValues({...defaultPuzzlesState});
+        }}/>
         <ControlBtn text={'Defuse'} handleClick={checkPasscode} />
       </div>
 
