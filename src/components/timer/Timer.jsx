@@ -131,39 +131,41 @@ const Timer = ({ setPuzzleValue }) => {
   }, [timeLeft]);
 
   return (
-    <div className="screencrack_container">
-      <div className="timer__container">
-        <span className="timer__time">00:{pad(timeLeft, 2)}</span>
-      </div>
-      {!enableNumpad ? (
-        <div className="disabled_numpad__container">
-          {[...Array(9)].map((x, i) => (
-            <span key={i} className="numpad__number">
-              {i + 1}
-            </span>
-          ))}
+    <div className="timer_outer_container">
+      <div className="screencrack_container">
+        <div className="timer__container">
+          <span className="timer__time">00:{pad(timeLeft, 2)}</span>
         </div>
-      ) : (
-        <div className="numpad__container">
-          {[...Array(9)].map((x, i) => (
-            <div className="numpad__number" key={`${i}-unique-numpad-key`}>
-              <div className="numpad__number__pushable">
-                <button
-                  key={i}
-                  className="numpad__number__front"
-                  onClick={() => typeIn(`${i + 1}`)}
-                >
-                  {i + 1}
-                </button>
+        {!enableNumpad ? (
+          <div className="disabled_numpad__container">
+            {[...Array(9)].map((x, i) => (
+              <span key={i} className="numpad__number">
+                {i + 1}
+              </span>
+            ))}
+          </div>
+        ) : (
+          <div className="numpad__container">
+            {[...Array(9)].map((x, i) => (
+              <div className="numpad__number" key={`${i}-unique-numpad-key`}>
+                <div className="numpad__number__pushable">
+                  <button
+                    key={i}
+                    className="numpad__number__front"
+                    onClick={() => typeIn(`${i + 1}`)}
+                  >
+                    {i + 1}
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
-      <ReactP5Wrapper
-        sketch={sketch}
-        setEnableNumpad={setEnableNumpad}
-      ></ReactP5Wrapper>
+            ))}
+          </div>
+        )}
+        <ReactP5Wrapper
+          sketch={sketch}
+          setEnableNumpad={setEnableNumpad}
+        ></ReactP5Wrapper>
+      </div>
     </div>
   );
 };
