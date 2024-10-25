@@ -234,7 +234,7 @@ export default function MazeGame() {
 
     const intervalId = setInterval(moveBall, 100); // Move every 100 ms
     return () => clearInterval(intervalId);
-  }, [orientation, maze]);
+  }, [orientation, userPosition, maze]);
 
   const restartGame = () => {
     setGameId((prevId) => prevId + 1);
