@@ -73,6 +73,14 @@ const Passcode = () => {
     exit: { opacity: 0, y: 100 }, // animate below again
   };
 
+  const checkPasscode = () => {
+    if (Object.values(correctPuzzleValues).every((value) => value === true)) {
+      navigate('/homescreen');
+    } else {
+      alert('fails');
+    }
+  };
+
   return (
     <div
       className="passcode_screen"
@@ -95,25 +103,17 @@ const Passcode = () => {
           clearPuzzle();
           setPuzzlesDone({
             ...puzzlesDone,
-            lightSensor: true,
+            timer: true,
           });
         }}
         isVisible={puzzleNum === 1}
       >
-        <LightSensor
+        <Timer
           setPuzzleValue={(value) => {
-            const { lux1, lux2, lux3 } = value;
-
-            const isCorrect =
-              lux1 >= 1000 &&
-              lux1 < 2000 &&
-              lux2 >= 3000 &&
-              lux2 < 4000 &&
-              lux3 >= 5000;
-
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
-              lightSensor: isCorrect,
+              timer:
+                value.timeLeft > 0 && value.passcode.split('-4') === '6969',
             });
           }}
         />
@@ -181,34 +181,42 @@ const Passcode = () => {
         <div>Puzzle 4</div>
       </Modal>
 
+      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 5}>
+        <div>Puzzle 5</div>
+      </Modal>
+
       <Modal
         closeModal={() => {
           clearPuzzle();
           setPuzzlesDone({
             ...puzzlesDone,
-            timer: true,
+            lightSensor: true,
           });
         }}
-        isVisible={puzzleNum === 5}
+        isVisible={puzzleNum === 6}
       >
-        <Timer
+        <LightSensor
           setPuzzleValue={(value) => {
+            const { lux1, lux2, lux3 } = value;
+
+            const isCorrect =
+              lux1 >= 1000 &&
+              lux1 < 2000 &&
+              lux2 >= 3000 &&
+              lux2 < 4000 &&
+              lux3 >= 5000;
+
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
-              timer:
-                value.timeLeft > 0 && value.passcode.split('-4') === '6969',
+              lightSensor: isCorrect,
             });
           }}
         />
       </Modal>
 
-      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 6}>
-        <div>Puzzle 6</div>
-      </Modal>
-
       <div className="passcode__attempt">
         <ControlBtn text={'Reset'} color={28} />
-        <ControlBtn text={'Defuse'} />
+        <ControlBtn text={'Defuse'} handleClick={checkPasscode} />
       </div>
 
       <AnimatePresence>

@@ -27,7 +27,7 @@ const Bomb = ({
   setDontHoldBomb,
   dontHoldBomb,
   setShowToggles,
-  puzzlesDone
+  puzzlesDone,
 }) => {
   const handleClick = (puzzleNum) => {
     setPuzzleNum(puzzleNum);
@@ -80,7 +80,7 @@ const Bomb = ({
                 draggable={false}
               />
             </button>
-            <Light done={puzzlesDone.lightSensor}/>
+            <Light done={puzzlesDone.timer} />
           </div>
           <div className="bomb__face bomb__face--back">
             <img
@@ -97,7 +97,7 @@ const Bomb = ({
                 draggable={false}
               />
             </button>
-            <Light done={puzzlesDone.compassWires}/>
+            <Light done={puzzlesDone.compassWires} />
           </div>
           <div className="bomb__face bomb__face--right">
             <img
@@ -143,7 +143,7 @@ const Bomb = ({
                 draggable={false}
               />
             </button>
-            <Light done={puzzlesDone.timer}/>
+            <Light />
           </div>
           <div className="bomb__face bomb__face--bottom">
             <img
@@ -160,7 +160,7 @@ const Bomb = ({
                 draggable={false}
               />
             </button>
-            <Light />
+            <Light done={puzzlesDone.lightSensor} />
           </div>
         </div>
       </div>
