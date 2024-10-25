@@ -94,7 +94,7 @@ const Passcode = () => {
 
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
-              lightSensor: isCorrect, // Update only if puzzle conditions are met
+              lightSensor: isCorrect,
             });
           }}
         />
