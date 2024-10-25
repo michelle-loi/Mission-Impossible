@@ -8,6 +8,8 @@ import CutWire from '../../components/cutwire/CutWire.jsx';
 import { useEffect, useState } from 'react';
 import './Passcode.scss';
 import { useNavigate } from 'react-router-dom';
+import ControlBtn from '../../components/controlbtn/ControlBtn.jsx';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const Passcode = () => {
   const [side, setSide] = useState('front');
@@ -25,6 +27,8 @@ const Passcode = () => {
     cutWire: false,
     timer: false,
   });
+  const [showToggles, setShowToggles] = useState(false);
+
   const clearPuzzle = () => {
     setPuzzleNum(null);
   };
@@ -55,6 +59,20 @@ const Passcode = () => {
     }
   };
 
+  // If the toggles were shown and the user holds the bomb, when they
+  // release the bomb make sure the toggles are hidden as well
+  useEffect(() => {
+    if (dontHoldBomb || !puzzleNum) {
+      setShowToggles(false);
+    }
+  }, [dontHoldBomb, puzzleNum]);
+
+  const ToggleVariants = {
+    initial: { opacity: 0, y: 100 }, // start below
+    in: { opacity: 1, y: 0 }, // animate into view
+    exit: { opacity: 0, y: 100 }, // animate below again
+  };
+
   return (
     <div
       className="passcode_screen"
@@ -66,9 +84,10 @@ const Passcode = () => {
         side={side}
         setPuzzleNum={setPuzzleNum}
         setDontHoldBomb={setDontHoldBomb}
+        setShowToggles={setShowToggles}
+        dontHoldBomb={dontHoldBomb}
         puzzlesDone={puzzlesDone}
       />
-      <Toggles isDisabled={dontHoldBomb} side={side} setSide={setSide} />
 
       {/* Puzzles */}
       <Modal
@@ -186,6 +205,27 @@ const Passcode = () => {
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 6}>
         <div>Puzzle 6</div>
       </Modal>
+
+      <div className="passcode__attempt">
+        <ControlBtn text={'Reset'} color={28} />
+        <ControlBtn text={'Defuse'} />
+      </div>
+
+      <AnimatePresence>
+        {showToggles && !dontHoldBomb && !puzzleNum && (
+          <motion.div
+            key={'toggle-unique-key'}
+            className="passcode__toggles"
+            initial="initial"
+            animate="in"
+            exit="exit"
+            variants={ToggleVariants}
+            transition={{ duration: 0.4 }}
+          >
+            <Toggles isDisabled={dontHoldBomb} side={side} setSide={setSide} />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/*<div>truth: {correctPuzzleValues.lightSensor ? 'true' : 'false'}</div>*/}
     </div>

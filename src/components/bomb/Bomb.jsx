@@ -15,36 +15,55 @@ import key5 from '../../assets/key_5.png';
 import key6 from '../../assets/key_6.png';
 import { playAudio } from '../../utils/useAudio.jsx';
 import clickSFX from '../../assets/click.mp3';
+import ControlBtn from '../controlbtn/ControlBtn.jsx';
 
 /**
  * This code is based on: https://3dtransforms.desandro.com/box
  * @returns Bomb element
  */
-const Bomb = ({ side, setPuzzleNum, setDontHoldBomb, puzzlesDone }) => {
+const Bomb = ({
+  side,
+  setPuzzleNum,
+  setDontHoldBomb,
+  dontHoldBomb,
+  setShowToggles,
+  puzzlesDone
+}) => {
   const handleClick = (puzzleNum) => {
     setPuzzleNum(puzzleNum);
     playAudio(new Audio(clickSFX), 1, 0);
   };
 
-  const {
-    requestAccess,
-    revokeAccess,
-    cssTransformInverse,
-  } = useDeviceOrientation();
+  const { requestAccess, revokeAccess, cssTransformInverse } =
+    useDeviceOrientation();
 
   const onToggle = (toggleState) => {
     toggleState ? requestAccess() : revokeAccess();
     setDontHoldBomb(toggleState);
+    playAudio(new Audio(clickSFX), 1, 0);
+  };
+
+  const handleToggles = () => {
+    setShowToggles((prev) => !prev);
+    playAudio(new Audio(clickSFX), 1, 0);
   };
 
   return (
     <>
       <div className="bomb-scene">
-        <OrientationSwitcher
-          onToggle={onToggle}
-          labelOff="Hold Bomb"
-          labelOn="Hold Bomb"
-        />
+        <div className="bomb__controls">
+          <OrientationSwitcher
+            onToggle={onToggle}
+            labelOff="Hold"
+            labelOn="Hold"
+          />
+          <ControlBtn
+            text={'Manual'}
+            color={255}
+            handleClick={handleToggles}
+            disable={dontHoldBomb}
+          />
+        </div>
         <div className={`bomb show-${side}`} style={cssTransformInverse}>
           <div className="bomb__face bomb__face--front">
             <img
@@ -78,7 +97,7 @@ const Bomb = ({ side, setPuzzleNum, setDontHoldBomb, puzzlesDone }) => {
                 draggable={false}
               />
             </button>
-            <Light done={puzzlesDone.lightSensor}/>
+            <Light done={puzzlesDone.compassWires}/>
           </div>
           <div className="bomb__face bomb__face--right">
             <img
