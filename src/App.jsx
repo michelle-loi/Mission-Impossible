@@ -22,6 +22,12 @@ function App() {
     exit: { opacity: 0, y: 100 }, // animate below again
   };
 
+  const HomeScreenVariants = {
+    initial: { opacity: 0 },
+    in: { opacity: 1 },
+    exit: { opacity: 0 },
+  };
+
   const AnimatedRoute = ({ children, variants, duration }) => {
     const location = useLocation();
 
@@ -58,7 +64,11 @@ function App() {
     },
     {
       path: '/homescreen',
-      element: <HomeScreen />,
+      element: (
+        <AnimatedRoute variants={HomeScreenVariants} duration={1.5}>
+          <HomeScreen />
+        </AnimatedRoute>
+      ),
     },
   ]);
 
