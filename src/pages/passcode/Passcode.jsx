@@ -17,13 +17,13 @@ const Passcode = () => {
     compassWires: false,
     lightSensor: false,
     cutWire: false,
-    timer: false
+    timer: false,
   });
   const [correctPuzzleValues, setCorrectPuzzleValues] = useState({
     compassWires: false,
     lightSensor: false,
     cutWire: false,
-    timer: false
+    timer: false,
   });
   const clearPuzzle = () => {
     setPuzzleNum(null);
@@ -62,94 +62,116 @@ const Passcode = () => {
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      <Bomb 
+      <Bomb
         side={side}
         setPuzzleNum={setPuzzleNum}
         setDontHoldBomb={setDontHoldBomb}
-        puzzlesDone={puzzlesDone} />
+        puzzlesDone={puzzlesDone}
+      />
       <Toggles isDisabled={dontHoldBomb} side={side} setSide={setSide} />
 
       {/* Puzzles */}
-      <Modal 
-        closeModal={() => { 
+      <Modal
+        closeModal={() => {
           clearPuzzle();
           setPuzzlesDone({
             ...puzzlesDone,
-            lightSensor: true
+            lightSensor: true,
           });
-        }
-      } 
-        isVisible={puzzleNum === 1}>
-        <LightSensor setPuzzleValue={(value) => {
+        }}
+        isVisible={puzzleNum === 1}
+      >
+        <LightSensor
+          setPuzzleValue={(value) => {
+            const { lux1, lux2, lux3 } = value;
+
+            const isPuzzleSolved =
+              lux1 >= 1000 &&
+              lux1 < 2000 &&
+              lux2 >= 3000 &&
+              lux2 < 4000 &&
+              lux3 >= 5000;
+
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
-              // TODO: replace condition with actual passcode
-              lightSensor: (value.lux1 >= 2000)
+              lightSensor: isPuzzleSolved, // Update only if puzzle conditions are met
             });
-          }}/>
+          }}
+        />
       </Modal>
 
-      <Modal closeModal={() => { 
+      <Modal
+        closeModal={() => {
           clearPuzzle();
           setPuzzlesDone({
             ...puzzlesDone,
-            compassWires: true
+            compassWires: true,
           });
-        }
-      } 
-        isVisible={puzzleNum === 2}>
-        <CompassWires setPuzzleValue={(value) => {
+        }}
+        isVisible={puzzleNum === 2}
+      >
+        <CompassWires
+          setPuzzleValue={(value) => {
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
               // TODO: replace with actual condition for passcode
-              compassWires: (true)
+              compassWires: true,
             });
-          }}/>
+          }}
+        />
       </Modal>
 
-      <Modal 
-        closeModal={() => { 
-            clearPuzzle();
-            setPuzzlesDone({
-              ...puzzlesDone,
-              cutWire: true
-            });
-          }
-        } 
-        isVisible={puzzleNum === 3}>
-        <CutWire setPuzzleValue={(value) => {
+      <Modal
+        closeModal={() => {
+          clearPuzzle();
+          setPuzzlesDone({
+            ...puzzlesDone,
+            cutWire: true,
+          });
+        }}
+        isVisible={puzzleNum === 3}
+      >
+        <CutWire
+          setPuzzleValue={(value) => {
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
-              cutWire: (value.redIsCut && value.yellowIsCut && !value.purpleIsCut)
+              cutWire:
+                value.redIsCut && value.yellowIsCut && !value.purpleIsCut,
             });
-          }}/>
+          }}
+        />
       </Modal>
 
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 4}>
         <div>Puzzle 4</div>
       </Modal>
 
-      <Modal 
-        closeModal={() => { 
-            clearPuzzle();
-            setPuzzlesDone({
-              ...puzzlesDone,
-              timer: true
-            });
-          }
-        } 
-        isVisible={puzzleNum === 5}>
-        <Timer setPuzzleValue={(value) => {
+      <Modal
+        closeModal={() => {
+          clearPuzzle();
+          setPuzzlesDone({
+            ...puzzlesDone,
+            timer: true,
+          });
+        }}
+        isVisible={puzzleNum === 5}
+      >
+        <Timer
+          setPuzzleValue={(value) => {
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
-              timer: (value.timeLeft > 0 && value.passcode.split('-4') === '6969')
+              timer:
+                value.timeLeft > 0 && value.passcode.split('-4') === '6969',
             });
-          }}/>
+          }}
+        />
       </Modal>
 
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 6}>
         <div>Puzzle 6</div>
       </Modal>
+
+      <div>truth: {correctPuzzleValues.lightSensor ? 'true' : 'false'}</div>
     </div>
   );
 };
