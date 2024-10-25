@@ -77,6 +77,7 @@ const Passcode = () => {
     if (Object.values(correctPuzzleValues).every((value) => value === true)) {
       navigate('/homescreen');
     } else {
+      // TODO: make red overlay
       alert('fails');
     }
   };
