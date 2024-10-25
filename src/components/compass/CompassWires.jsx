@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { playAudio } from '../../utils/useAudio.jsx';
 import overheatSFX from '../../assets/overheat.mp3';
 
-const CompassWires = ({setPuzzleValue}) => {
+const CompassWires = ({ setPuzzleValue }) => {
   const [heading, setHeading] = useState(0);
   const [resistorsSelected, setResistorsSelected] = useState([]);
   const [pendingResistor, setPendingResistor] = useState(null);

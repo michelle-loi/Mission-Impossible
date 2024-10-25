@@ -85,7 +85,7 @@ const Passcode = () => {
           setPuzzleValue={(value) => {
             const { lux1, lux2, lux3 } = value;
 
-            const isPuzzleSolved =
+            const isCorrect =
               lux1 >= 1000 &&
               lux1 < 2000 &&
               lux2 >= 3000 &&
@@ -94,7 +94,7 @@ const Passcode = () => {
 
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
-              lightSensor: isPuzzleSolved, // Update only if puzzle conditions are met
+              lightSensor: isCorrect, // Update only if puzzle conditions are met
             });
           }}
         />
@@ -112,10 +112,26 @@ const Passcode = () => {
       >
         <CompassWires
           setPuzzleValue={(value) => {
+            // Correct answers with the expected values
+            const compassAns = [
+              { id: 'res-1', value: 68 },
+              { id: 'res-5', value: 256 },
+              { id: 'res-6', value: 145 },
+            ];
+
+            // iterate through every object and check via indices to make sure
+            // correct order
+            const isCorrect =
+              value.length === compassAns.length &&
+              value.every(
+                (val, index) =>
+                  val.resistorId === compassAns[index].id &&
+                  Math.abs(val.heading - compassAns[index].value) <= 3 // ±3 buffer (for my shaky hands)
+              );
+
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
-              // TODO: replace with actual condition for passcode
-              compassWires: true,
+              compassWires: isCorrect,
             });
           }}
         />
@@ -171,7 +187,7 @@ const Passcode = () => {
         <div>Puzzle 6</div>
       </Modal>
 
-      <div>truth: {correctPuzzleValues.lightSensor ? 'true' : 'false'}</div>
+      {/*<div>truth: {correctPuzzleValues.lightSensor ? 'true' : 'false'}</div>*/}
     </div>
   );
 };
