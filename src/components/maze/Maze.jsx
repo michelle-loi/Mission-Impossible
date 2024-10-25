@@ -1,5 +1,14 @@
-import { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import './Maze.scss';
+import Quaternion from 'quaternion';
+
+const orientations = [
+  ['landscape left', 'landscape right'], // device x axis points up/down
+  ['portrait', 'portrait upside down'], // device y axis points up/down
+  ['display up', 'display down'], // device z axis points up/down
+];
+
+const rad = Math.PI / 180;
 
 export default function MazeGame() {
   const [gameId, setGameId] = useState(1);
@@ -11,6 +20,10 @@ export default function MazeGame() {
   const [selectedCellX, setSelectedCellX] = useState(null); // Track selected cell
   const [selectedCellY, setSelectedCellY] = useState(null); // Track selected cell
   const moveDelay = 200; // Delay in milliseconds
+
+  const [angles, setAngles] = useState({ alpha: 0, beta: 0, gamma: 0 });
+  const [vec, setVec] = useState([0, 0, 0]);
+  const [orientation, setOrientation] = useState('');
 
   const fixedMaze = [
     [
@@ -149,87 +162,79 @@ export default function MazeGame() {
   // Define the winning cell
   const winningCell = [4, 5]; // Change this to any valid cell as the winning position
 
-  // Move player with delay
-  const movePlayer = (gamma, beta) => {
-    const currentTime = Date.now();
-
-    // Prevent rapid movement
-    if (currentTime - lastMoveTime < moveDelay) {
-      return;
-    }
-
-    setLastMoveTime(currentTime);
-    let newPosition = [...userPosition];
-
-    // Move right while gamma indicates right movement
-    while (gamma > 5) {
-      newPosition[1] = Math.min(newPosition[1] + 1, maze[0].length - 1); // Move right
-      gamma -= 5; // Decrease gamma to eventually exit the loop
-    }
-
-    // Move left while gamma indicates left movement
-    while (gamma < -5) {
-      newPosition[1] = Math.max(newPosition[1] - 1, 0); // Move left
-      gamma += 5; // Increase gamma to eventually exit the loop
-    }
-
-    // Move down while beta indicates downward movement
-    while (beta > 5) {
-      newPosition[0] = Math.min(newPosition[0] + 1, maze.length - 1); // Move down
-      beta -= 5; // Decrease beta to eventually exit the loop
-    }
-
-    // Move up while beta indicates upward movement
-    while (beta < -5) {
-      newPosition[0] = Math.max(newPosition[0] - 1, 0); // Move up
-      beta += 5; // Increase beta to eventually exit the loop
-    }
-
-    // Only update user position if it's within bounds
-    if (
-      newPosition[0] >= 0 &&
-      newPosition[0] < maze.length &&
-      newPosition[1] >= 0 &&
-      newPosition[1] < maze[0].length &&
-      maze[newPosition[0]][newPosition[1]] !== 1 // Check if the cell is not a wall
-    ) {
-      setUserPosition(newPosition);
-      //setSelectedCell(newPosition);
-    }
-  };
-
-  // Handle device motion
   useEffect(() => {
-    const handleDeviceMotion = (event) => {
-      const { beta, gamma } = event; // Get beta (x-axis) and gamma (z-axis)
-      movePlayer(gamma, beta);
+    const onOrientationChange = (ev) => {
+      const q = Quaternion.fromEuler(
+        ev.alpha * rad * 1.5,
+        ev.beta * rad * 1.5,
+        ev.gamma * rad * 1.5,
+        'ZXY'
+      );
+
+      // Transform an upward-pointing vector to device coordinates
+      const vec = q.conjugate().rotateVector([0, 0, 1]);
+
+      // Find the axis with the largest absolute value
+      const [value, axis] = vec.reduce(
+        (acc, cur, idx) =>
+          Math.abs(cur) < Math.abs(acc[0]) ? acc : [cur, idx],
+        [0, 0]
+      );
+
+      const orientation = orientations[axis][1 * (value < 0)];
+
+      setAngles({ alpha: ev.alpha, beta: ev.beta, gamma: ev.gamma });
+      setVec(vec);
+      setOrientation(orientation);
     };
 
-    const requestPermission = async () => {
-      if (DeviceOrientationEvent.requestPermission) {
-        try {
-          const permission = await DeviceOrientationEvent.requestPermission();
-          if (permission === 'granted') {
-            window.addEventListener('deviceorientation', handleDeviceMotion);
-          } else {
-            console.log('Permission not granted for device orientation.');
-          }
-        } catch (error) {
-          console.error(
-            'Error requesting device orientation permission',
-            error
-          );
-        }
-      } else {
-        window.addEventListener('deviceorientation', handleDeviceMotion);
+    window.addEventListener('deviceorientation', onOrientationChange, true);
+
+    return () => {
+      window.removeEventListener(
+        'deviceorientation',
+        onOrientationChange,
+        true
+      );
+    };
+  }, []);
+
+  useEffect(() => {
+    const moveBall = () => {
+      const newPosition = [...userPosition];
+
+      switch (orientation) {
+        case 'landscape left':
+          newPosition[1] = Math.max(newPosition[1] - 1, 0); // Move left
+          break;
+        case 'landscape right':
+          newPosition[1] = Math.min(newPosition[1] + 1, maze[0].length - 1); // Move right
+          break;
+        case 'portrait':
+          newPosition[0] = Math.min(newPosition[0] + 1, maze.length - 1); // Move down
+          break;
+        case 'portrait upside down':
+          newPosition[0] = Math.max(newPosition[0] - 1, 0); // Move up
+          break;
+        default:
+          break;
+      }
+
+      // Check if the new position is valid (not a wall)
+      if (
+        newPosition[0] >= 0 &&
+        newPosition[0] < maze.length &&
+        newPosition[1] >= 0 &&
+        newPosition[1] < maze[0].length &&
+        maze[newPosition[0]][newPosition[1]] !== 1 // Check if the cell is not a wall
+      ) {
+        setUserPosition(newPosition);
       }
     };
 
-    requestPermission();
-    return () => {
-      window.removeEventListener('deviceorientation', handleDeviceMotion);
-    };
-  }, []);
+    const intervalId = setInterval(moveBall, 100); // Move every 100 ms
+    return () => clearInterval(intervalId);
+  }, [orientation, maze]);
 
   const restartGame = () => {
     setGameId((prevId) => prevId + 1);
@@ -346,6 +351,28 @@ export default function MazeGame() {
           <h3>You have used all your attempts.</h3>
         </div>
       )}
+
+      <div>
+        <div id="angles">
+          alpha = {angles.alpha.toFixed(1)}°, beta = {angles.beta.toFixed(1)}°,
+          gamma = {angles.gamma.toFixed(1)}°
+        </div>
+        <div id="vec">
+          vec = {vec.map((a) => a.toFixed(3)).join(', ')}, dominant axis ={' '}
+          {vec.reduce(
+            (acc, cur, idx) => (Math.abs(cur) > Math.abs(acc) ? idx : acc),
+            0
+          )}
+          , value ={' '}
+          {vec[
+            vec.reduce(
+              (acc, cur, idx) => (Math.abs(cur) > Math.abs(acc) ? idx : acc),
+              0
+            )
+          ].toFixed(3)}
+        </div>
+        <div id="orientation">orientation = {orientation}</div>
+      </div>
     </div>
   );
 }

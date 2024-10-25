@@ -5,6 +5,8 @@ import Toggles from './components/toggles/Toggles.jsx';
 import Modal from './components/modal/Modal.jsx';
 import LightSensor from './components/battery/LightSensor.jsx';
 import CompassWires from './components/compass/CompassWires.jsx';
+import MazeGame from './components/maze/Maze.jsx';
+import OrientationComponent from './components/test/OrientationComponent.jsx';
 
 function App() {
   const [side, setSide] = useState('front');
@@ -28,7 +30,7 @@ function App() {
       </Modal>
 
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 3}>
-        <div>Puzzle 3</div>
+        <MazeGame />
       </Modal>
 
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 4}>
