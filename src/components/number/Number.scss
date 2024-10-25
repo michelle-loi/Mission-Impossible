@@ -1,6 +1,6 @@
 .body {
     font-family: var("HK Grotesk");
-    background-color: white; /* Set background color to white */
+    //background-color: white; /* Set background color to white */
     display: flex; /* Center body content */
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
@@ -14,8 +14,8 @@
     flex-direction: column; /* Stack children vertically */
     align-items: center; /* Center children horizontally */
     justify-content: space-between; /* Space children evenly */
-    height: 90vh; /* Set a height to fit the viewport */
-    width: 90vw; /* Set a width to fit the viewport */
+    height: 100vh; /* Set a height to fit the viewport */
+    width: 100vw; /* Set a width to fit the viewport */
     padding: 15px; /* Padding inside the container */
     background-color: #f9f9f9; /* Background color */
     border-radius: 10px; /* Rounded corners */
@@ -31,8 +31,8 @@
     height: 40%; /* Use a percentage for better responsiveness */
     border: 2px solid #333;
     border-radius: 10px;
-    background-color: #f7f7f7; /* Background color */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Shadow */
+   // background-color: #f7f7f7; /* Background color */
+  //  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Shadow */
     margin-bottom: 2%; /* Reduced margin below */
 }
 

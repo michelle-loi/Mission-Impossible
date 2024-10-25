@@ -51,6 +51,10 @@ const Number = () => {
     webcam = new tmImage.Webcam(width, height, flip);
     await webcam.setup();
 
+    if (webcamContainerRef.current) {
+        webcamContainerRef.current.innerHTML = ''; // Clear the webcam container
+      }
+
     if (isIos) {
       webcamContainerRef.current.appendChild(webcam.webcam);
       const webCamVideo = document.getElementsByTagName("video")[0];
