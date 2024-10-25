@@ -22,9 +22,9 @@ const Passcode = () => {
     timer: false,
   });
   const [correctPuzzleValues, setCorrectPuzzleValues] = useState({
-    compassWires: true,
-    lightSensor: true,
-    cutWire: true,
+    compassWires: false,
+    lightSensor: false,
+    cutWire: false,
     timer: false,
   });
   const [showToggles, setShowToggles] = useState(false);
@@ -79,6 +79,7 @@ const Passcode = () => {
     } else {
       // TODO: make red overlay
       alert('fails');
+      alert(JSON.stringify(correctPuzzleValues));
     }
   };
 
