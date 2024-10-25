@@ -14,7 +14,12 @@ const Passcode = () => {
   const [puzzleNum, setPuzzleNum] = useState(null);
   const [dontHoldBomb, setDontHoldBomb] = useState(false);
   const [puzzlesDone, setPuzzlesDone] = useState({
-    CutWire: false
+    battery: false,
+    cutWire: false
+  });
+  const [correctPuzzleValues, setCorrectPuzzleValues] = useState({
+    battery: false,
+    cutWire: false
   });
   const clearPuzzle = () => {
     setPuzzleNum(null);
@@ -61,19 +66,43 @@ const Passcode = () => {
       <Toggles isDisabled={dontHoldBomb} side={side} setSide={setSide} />
 
       {/* Puzzles */}
-      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 1}>
-        <LightSensor />
+      <Modal 
+        closeModal={() => { 
+          clearPuzzle();
+          setPuzzlesDone({
+            ...puzzlesDone,
+            lightSensor: true
+          });
+        }
+      } 
+        isVisible={puzzleNum === 1}>
+        <LightSensor setPuzzleValue={(value) => {
+            setCorrectPuzzleValues({
+              ...correctPuzzleValues,
+              // TODO: replace condition with actual passcode
+              lightSensor: (value.lux1 >= 2000)
+            });
+          }}/>
       </Modal>
 
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 2}>
         <CompassWires />
       </Modal>
 
-      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 3}>
-        <CutWire setPuzzleValue={(value) => {
+      <Modal 
+        closeModal={() => { 
+            clearPuzzle();
             setPuzzlesDone({
               ...puzzlesDone,
-              CutWire: (value.redIsCut && value.yellowIsCut && !value.purpleIsCut)
+              cutWire: true
+            });
+          }
+        } 
+        isVisible={puzzleNum === 3}>
+        <CutWire setPuzzleValue={(value) => {
+            setCorrectPuzzleValues({
+              ...correctPuzzleValues,
+              cutWire: (value.redIsCut && value.yellowIsCut && !value.purpleIsCut)
             });
           }}/>
       </Modal>

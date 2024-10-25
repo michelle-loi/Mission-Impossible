@@ -11,11 +11,14 @@ import { playAudio } from '../../utils/useAudio.jsx';
  * @returns {JSX.Element}
  * @constructor
  */
-const LightSensor = () => {
+const LightSensor = (setPuzzleValue) => {
   // Stores the lux values for each battery
   const [lux1, setLux1] = useState(-1);
   const [lux2, setLux2] = useState(-1);
   const [lux3, setLux3] = useState(-1);
+  let puzzleValue = {
+    lux1: -1, lux2: -1, lux3: -1
+  };
 
   // tracks the battery the user is interacting with
   const [batteryNum, setBatteryNum] = useState(-1);
@@ -30,12 +33,24 @@ const LightSensor = () => {
       switch (batteryNum) {
         case 1:
           setLux1(sensor.illuminance);
+          setPuzzleValue({
+            ...puzzleValue,
+            lux1: sensor.illuminance
+          });
           break;
         case 2:
           setLux2(sensor.illuminance);
+          setPuzzleValue({
+            ...puzzleValue,
+            lux2: sensor.illuminance
+          });
           break;
         case 3:
           setLux3(sensor.illuminance);
+          setPuzzleValue({
+            ...puzzleValue,
+            lux3: sensor.illuminance
+          });
           break;
         default:
           break;
