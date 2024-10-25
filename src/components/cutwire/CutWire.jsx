@@ -116,7 +116,7 @@ function sketch(p5) {
 
     // camera
     p5.fill('white');
-    p5.ellipse(cx, cy, 200, 200);
+    p5.ellipse(cx + 10, cy, 200, 200);
 
     // the wire
     p5.fill('blue');
@@ -188,12 +188,14 @@ const CutWire = ({ setPuzzleValue }) => {
   const [flashlightOn, setFlashlightOn] = useState(false);
 
   return (
-    <div>
-      <ReactP5Wrapper
-        sketch={sketch}
-        flashlightOn={flashlightOn}
-        setPuzzleValue={setPuzzleValue}
-      ></ReactP5Wrapper>
+    <div className="cut_wire_container">
+      <div className="cut_wire">
+        <ReactP5Wrapper
+          sketch={sketch}
+          flashlightOn={flashlightOn}
+          setPuzzleValue={setPuzzleValue}
+        ></ReactP5Wrapper>
+      </div>
       <button
         onClick={() => {
           setFlashlightOn(!flashlightOn);
