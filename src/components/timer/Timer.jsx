@@ -95,8 +95,14 @@ function playSound(audioBuffer) {
   source.start();
 }
 
-loadBuffer('https://cdn.glitch.global/2d015de5-e623-41ed-bf3a-46890e53b2c8/beep_short.mp3?v=1729893201747', 'beep_short');
-loadBuffer('https://cdn.glitch.global/2d015de5-e623-41ed-bf3a-46890e53b2c8/button_click.mp3?v=1729893225041', 'button_click');
+loadBuffer(
+  'https://cdn.glitch.global/2d015de5-e623-41ed-bf3a-46890e53b2c8/beep_short.mp3?v=1729893201747',
+  'beep_short'
+);
+loadBuffer(
+  'https://cdn.glitch.global/2d015de5-e623-41ed-bf3a-46890e53b2c8/button_click.mp3?v=1729893225041',
+  'button_click'
+);
 
 const Timer = ({ setPuzzleValue }) => {
   const [timeLeft, setTimeLeft] = useState(30);
