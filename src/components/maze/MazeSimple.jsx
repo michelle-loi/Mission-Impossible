@@ -1,6 +1,23 @@
 import { useState, useMemo, useEffect } from 'react';
 import './Maze.scss';
+import Quaternion from 'quaternion';
 
+const orientations = [
+  ['landscape left', 'landscape right'], // device x-axis points up/down
+  ['portrait', 'portrait upside down'], // device y-axis points up/down
+  ['display up', 'display down'], // device z axis points up/down
+];
+
+const rad = Math.PI / 180;
+
+/**
+ * Quaternion computations from below
+ * https://stackoverflow.com/questions/56769428/device-orientation-using-quaternion
+ * https://stackoverflow.com/questions/41491940/deviceorientationevent-how-to-deal-with-crazy-gamma-when-beta-approaches-hits-9
+ * @param setPuzzleValue
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function MazeGame({ setPuzzleValue }) {
   const [gameId, setGameId] = useState(1);
   const [userPosition, setUserPosition] = useState([3, 3]);
@@ -9,6 +26,10 @@ export default function MazeGame({ setPuzzleValue }) {
   const [selectedCellY, setSelectedCellY] = useState(null); // Track selected cell
   const moveDelay = 10000000000; // Delay in milliseconds
   const [targetLocked, setTargetLocked] = useState(false);
+
+  const [angles, setAngles] = useState({ alpha: 0, beta: 0, gamma: 0 });
+  const [vec, setVec] = useState([0, 0, 0]);
+  const [orientation, setOrientation] = useState('');
 
   const fixedMaze = [
     [
@@ -89,65 +110,71 @@ export default function MazeGame({ setPuzzleValue }) {
     document.documentElement.style.setProperty('--maze-cols', mazeCols);
   }, [maze]);
 
-  // Move player with delay
-  const movePlayer = (gamma, beta) => {
-    const currentTime = Date.now();
-    //
-    // // Prevent rapid movement
-    // if (currentTime - lastMoveTime < moveDelay) {
-    //   return;
-    // }
+  useEffect(() => {
+    const movePlayer = () => {
+      const newPosition = [...userPosition];
 
-    setLastMoveTime(currentTime);
-    let newPosition = [...userPosition];
+      switch (orientation) {
+        case 'landscape left':
+          newPosition[1] = Math.max(newPosition[1] - 1, 0); // Move left
+          break;
+        case 'landscape right':
+          newPosition[1] = Math.min(newPosition[1] + 1, maze[0].length - 1); // Move right
+          break;
+        case 'portrait':
+          newPosition[0] = Math.min(newPosition[0] + 1, maze.length - 1); // Move down
+          break;
+        case 'portrait upside down':
+          newPosition[0] = Math.max(newPosition[0] - 1, 0); // Move up
+          break;
+        default:
+          break;
+      }
 
-    // Move right while gamma indicates right movement
-    while (gamma > 5) {
-      newPosition[1] = Math.min(newPosition[1] + 1, maze[0].length - 1); // Move right
-      gamma -= 5; // Decrease gamma to eventually exit the loop
-    }
+      // Check if the new position is valid (not a wall)
+      if (
+        newPosition[0] >= 0 &&
+        newPosition[0] < maze.length &&
+        newPosition[1] >= 0 &&
+        newPosition[1] < maze[0].length &&
+        maze[newPosition[0]][newPosition[1]] !== 1 // Check if the cell is not a wall
+      ) {
+        setUserPosition(newPosition);
+      }
+    };
 
-    // Move left while gamma indicates left movement
-    while (gamma < -5) {
-      newPosition[1] = Math.max(newPosition[1] - 1, 0); // Move left
-      gamma += 5; // Increase gamma to eventually exit the loop
-    }
-
-    // Move down while beta indicates downward movement
-    while (beta > 5) {
-      newPosition[0] = Math.min(newPosition[0] + 1, maze.length - 1); // Move down
-      beta -= 5; // Decrease beta to eventually exit the loop
-    }
-
-    // Move up while beta indicates upward movement
-    while (beta < -5) {
-      newPosition[0] = Math.max(newPosition[0] - 1, 0); // Move up
-      beta += 5; // Increase beta to eventually exit the loop
-    }
-
-    // Only update user position if it's within bounds
-    if (
-      newPosition[0] >= 0 &&
-      newPosition[0] < maze.length &&
-      newPosition[1] >= 0 &&
-      newPosition[1] < maze[0].length &&
-      maze[newPosition[0]][newPosition[1]] !== 1 // Check if the cell is not a wall
-    ) {
-      setUserPosition(newPosition);
-      //setSelectedCell(newPosition);
-    }
-  };
+    const intervalId = setInterval(movePlayer, 100); // Move every 100 ms
+    return () => clearInterval(intervalId);
+  }, [orientation, userPosition, maze]);
 
   let permission;
 
   // Handle device motion
   useEffect(() => {
-    const handleDeviceMotion = (event) => {
-      console.log(targetLocked);
+    const onOrientationChange = (ev) => {
+      const q = Quaternion.fromEuler(
+        ev.alpha * rad * 1.5,
+        ev.beta * rad * 1.5,
+        ev.gamma * rad * 1.5,
+        'ZXY'
+      );
+
+      // Transform an upward-pointing vector to device coordinates
+      const vec = q.conjugate().rotateVector([0, 0, 1]);
+
+      // Find the axis with the largest absolute value
+      const [value, axis] = vec.reduce(
+        (acc, cur, idx) =>
+          Math.abs(cur) < Math.abs(acc[0]) ? acc : [cur, idx],
+        [0, 0]
+      );
+
+      const orientation = orientations[axis][1 * (value < 0)];
+
       if (!targetLocked) {
-        const { beta, gamma } = event; // Get beta (x-axis) and gamma (z-axis)
-        console.log('moving');
-        movePlayer(gamma, beta);
+        setAngles({ alpha: ev.alpha, beta: ev.beta, gamma: ev.gamma });
+        setVec(vec);
+        setOrientation(orientation);
       }
     };
 
@@ -156,7 +183,11 @@ export default function MazeGame({ setPuzzleValue }) {
         try {
           permission = await DeviceOrientationEvent.requestPermission();
           if (permission === 'granted') {
-            window.addEventListener('deviceorientation', handleDeviceMotion);
+            window.addEventListener(
+              'deviceorientation',
+              onOrientationChange,
+              true
+            );
           } else {
             console.log('Permission not granted for device orientation.');
           }
@@ -167,13 +198,17 @@ export default function MazeGame({ setPuzzleValue }) {
           );
         }
       } else {
-        window.addEventListener('deviceorientation', handleDeviceMotion);
+        window.addEventListener('deviceorientation', onOrientationChange, true);
       }
     };
 
     requestPermission();
     return () => {
-      window.removeEventListener('deviceorientation', handleDeviceMotion);
+      window.removeEventListener(
+        'deviceorientation',
+        onOrientationChange,
+        true
+      );
     };
   }, [permission, targetLocked]);
 
@@ -190,6 +225,16 @@ export default function MazeGame({ setPuzzleValue }) {
 
       setSelectedCellX(userPosition[0]);
       setSelectedCellY(userPosition[1]);
+
+      console.log(userPosition[0]);
+      console.log(userPosition[1]);
+
+      // if (
+      //   userPosition[0] === winningCell[0] &&
+      //   userPosition[1] === winningCell[1]
+      // ) {
+      //   console.log('winner winner chicken dinner');
+      // }
 
       setPuzzleValue({
         x: userPosition[0],

@@ -3,7 +3,6 @@
   --maze-cols: 10; /* Default values */
 }
 
-
 .maze-container {
   display: flex;
   flex-direction: column;
@@ -27,7 +26,6 @@
   position: relative;
 }
 
-
 .player {
   width: 100%;
   height: 100%;
@@ -35,18 +33,17 @@
   border-radius: 50%;
 }
 
-.win-message {
-  margin-top: 20px;
-  font-size: 1.5rem;
-  color: green;
-}
-
 .maze-btn {
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 1rem;
-  position: center;
 }
+
+.selected {
+  background-color: blue;
+}
+
+// Unused classes
 
 .winning-cell {
   background-color: gold; // Highlight the winning cell
@@ -59,6 +56,8 @@
   margin-right: 30%;
 }
 
-.selected {
-  background-color: blue;
+.win-message {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  color: green;
 }

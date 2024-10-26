@@ -91,7 +91,7 @@ const Passcode = () => {
     } else {
       // TODO: make red overlay
       // alert('fails');
-      // alert(JSON.stringify(correctPuzzleValues));
+      alert(JSON.stringify(correctPuzzleValues));
 
       setOverlay(true);
       playAudio(new Audio(explosionSFX), 1, 0);
@@ -231,11 +231,7 @@ const Passcode = () => {
           setPuzzleValue={(value) => {
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
-              mazeGame:
-                (value.x === 2 && value.y === 3) ||
-                (value.x === 2 && value.y === 4) ||
-                (value.x === 3 && value.y === 3) ||
-                (value.x === 3 && value.y === 4),
+              mazeGame: value.x === 4 && value.y === 3,
             });
           }}
         ></MazeGame>
