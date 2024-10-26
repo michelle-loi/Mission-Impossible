@@ -227,8 +227,8 @@ export default function MazeGame({ setPuzzleValue }) {
       setSelectedCellX(userPosition[0]);
       setSelectedCellY(userPosition[1]);
 
-      console.log(userPosition[0]);
-      console.log(userPosition[1]);
+      // console.log(userPosition[0]);
+      // console.log(userPosition[1]);
 
       // if (
       //   userPosition[0] === winningCell[0] &&
