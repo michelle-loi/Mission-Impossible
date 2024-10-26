@@ -196,13 +196,12 @@ const CutWire = ({ setPuzzleValue }) => {
 
   return (
     <div className="cut_wire_container">
-      <div className="cut_wire">
-        <ReactP5Wrapper
-          sketch={sketch}
-          flashlightOn={flashlightOn}
-          setPuzzleValue={setPuzzleValue}
-        ></ReactP5Wrapper>
-      </div>
+      <ReactP5Wrapper
+        sketch={sketch}
+        flashlightOn={flashlightOn}
+        setPuzzleValue={setPuzzleValue}
+      ></ReactP5Wrapper>
+
       <button
         onClick={() => {
           setFlashlightOn(!flashlightOn);
