@@ -35,3 +35,25 @@
   display: grid;
   place-items: center;
 }
+
+.pass_bomb_wrapper {
+  z-index: 2;
+}
+
+.pass_error_overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 0, 0, 0.5);
+  z-index: 15;
+  animation: flash 1.2s infinite;
+}
+
+@keyframes flash {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}

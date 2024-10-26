@@ -10,6 +10,9 @@ import './Passcode.scss';
 import { useNavigate } from 'react-router-dom';
 import ControlBtn from '../../components/controlbtn/ControlBtn.jsx';
 import { AnimatePresence, motion } from 'framer-motion';
+import { playAudio } from '../../utils/useAudio.jsx';
+import clickSFX from '../../assets/click.mp3';
+import explosionSFX from '../../assets/explosion.mp3';
 
 const Passcode = () => {
   const [side, setSide] = useState('front');
@@ -21,8 +24,10 @@ const Passcode = () => {
     cutWire: false,
     timer: false,
   };
-  const [puzzlesDone, setPuzzlesDone] = useState({...defaultPuzzlesState});
-  const [correctPuzzleValues, setCorrectPuzzleValues] = useState({...defaultPuzzlesState});
+  const [puzzlesDone, setPuzzlesDone] = useState({ ...defaultPuzzlesState });
+  const [correctPuzzleValues, setCorrectPuzzleValues] = useState({
+    ...defaultPuzzlesState,
+  });
   const [showToggles, setShowToggles] = useState(false);
 
   const clearPuzzle = () => {
@@ -69,14 +74,33 @@ const Passcode = () => {
     exit: { opacity: 0, y: 100 }, // animate below again
   };
 
+  const [overlay, setOverlay] = useState(false);
+  const OverlayVariants = {
+    initial: { opacity: 0 },
+    in: { opacity: 1 },
+    exit: { opacity: 0 },
+  };
+
   const checkPasscode = () => {
     if (Object.values(correctPuzzleValues).every((value) => value === true)) {
       navigate('/homescreen');
     } else {
       // TODO: make red overlay
-      alert('fails');
-      alert(JSON.stringify(correctPuzzleValues));
+      // alert('fails');
+      // alert(JSON.stringify(correctPuzzleValues));
+
+      setOverlay(true);
+      playAudio(new Audio(explosionSFX), 1, 0);
+
+      setPuzzlesDone({ ...defaultPuzzlesState });
+      setCorrectPuzzleValues({ ...defaultPuzzlesState });
+
+      // 5 seconds set it false again
+      setTimeout(() => {
+        setOverlay(false);
+      }, 4000);
     }
+    playAudio(new Audio(clickSFX), 1, 0);
   };
 
   return (
@@ -86,14 +110,29 @@ const Passcode = () => {
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      <Bomb
-        side={side}
-        setPuzzleNum={setPuzzleNum}
-        setDontHoldBomb={setDontHoldBomb}
-        setShowToggles={setShowToggles}
-        dontHoldBomb={dontHoldBomb}
-        puzzlesDone={puzzlesDone}
-      />
+      <AnimatePresence>
+        {overlay && (
+          <motion.div
+            className="pass_error_overlay"
+            key={'pass-overlay-unique-key'}
+            initial="initial"
+            animate="in"
+            exit="exit"
+            variants={OverlayVariants}
+            transition={{ duration: 0.4 }}
+          ></motion.div>
+        )}
+      </AnimatePresence>
+      <div className="pass_bomb_wrapper">
+        <Bomb
+          side={side}
+          setPuzzleNum={setPuzzleNum}
+          setDontHoldBomb={setDontHoldBomb}
+          setShowToggles={setShowToggles}
+          dontHoldBomb={dontHoldBomb}
+          puzzlesDone={puzzlesDone}
+        />
+      </div>
 
       {/* Puzzles */}
       <Modal
@@ -110,8 +149,7 @@ const Passcode = () => {
           setPuzzleValue={(value) => {
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
-              timer:
-                value.timeLeft > 0 && value.passcode.slice(-4) === '6969',
+              timer: value.timeLeft > 0 && value.passcode.slice(-4) === '6969',
             });
           }}
         />
@@ -213,10 +251,15 @@ const Passcode = () => {
       </Modal>
 
       <div className="passcode__attempt">
-        <ControlBtn text={'Reset'} color={28} handleClick={() => {
-          setPuzzlesDone({...defaultPuzzlesState});
-          setCorrectPuzzleValues({...defaultPuzzlesState});
-        }}/>
+        <ControlBtn
+          text={'Reset'}
+          color={28}
+          handleClick={() => {
+            setPuzzlesDone({ ...defaultPuzzlesState });
+            setCorrectPuzzleValues({ ...defaultPuzzlesState });
+            playAudio(new Audio(clickSFX), 1, 0);
+          }}
+        />
         <ControlBtn text={'Defuse'} handleClick={checkPasscode} />
       </div>
 
