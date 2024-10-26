@@ -4,8 +4,7 @@ import "./Maze.scss";
 export default function MazeGame() {
   const [gameId, setGameId] = useState(1);
   const [status, setStatus] = useState("playing");
-  const [cheatMode, setCheatMode] = useState(false);
-  const [userPosition, setUserPosition] = useState([0, 0]);
+  const [userPosition, setUserPosition] = useState([0, 3]);
   const [lastMoveTime, setLastMoveTime] = useState(0);
   const [attempts, setAttempts] = useState(0); // Track number of attempts
   const [selectedCellX, setSelectedCellX] = useState(null); // Track selected cell
@@ -13,17 +12,19 @@ export default function MazeGame() {
   const moveDelay = 10000000000; // Delay in milliseconds
 
   const fixedMaze = [
-    [[0, 1, 1, 0], [0, 1, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1], [0, 1, 0, 1], [0, 1, 1, 1], [0, 1, 0, 1], [0, 1, 1, 1], [0, 1, 0, 1], [0, 0, 1, 1]],
-    [[1, 1, 0, 0], [0, 1, 1, 1], [1, 0, 0, 1], [1, 1, 1, 0], [0, 1, 0, 1], [1, 1, 1, 1], [0, 1, 0, 1], [1, 1, 0, 1], [1, 1, 0, 1], [1, 0, 1, 1]],
-    [[0, 1, 1, 0], [1, 1, 0, 1], [0, 0, 1, 0], [1, 1, 1, 1], [1, 0, 1, 1], [0, 1, 0, 0], [1, 0, 1, 1], [0, 1, 1, 0], [1, 1, 0, 1], [1, 0, 1, 1]],
-    [[1, 1, 0, 0], [0, 1, 1, 1], [1, 0, 1, 1], [0, 1, 1, 1], [1, 1, 1, 0], [1, 1, 0, 1], [0, 1, 1, 0], [1, 0, 0, 1], [0, 1, 1, 0], [0, 0, 1, 1]],
-    [[0, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 1], [1, 1, 1, 0], [0, 1, 1, 1], [1, 0, 0, 1], [1, 1, 0, 1], [1, 1, 1, 1], [1, 1, 0, 1], [1, 0, 1, 1]],
-    [[1, 1, 0, 0], [0, 1, 1, 1], [1, 1, 0, 1], [0, 1, 1, 1], [1, 0, 1, 1], [1, 1, 1, 0], [1, 1, 0, 1], [0, 1, 1, 1], [1, 1, 0, 1], [1, 0, 1, 1]],
-    [[0, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 1], [1, 1, 1, 0], [1, 1, 0, 1], [1, 1, 1, 1], [1, 0, 0, 1], [1, 1, 1, 0], [0, 1, 0, 1], [0, 0, 1, 1]],
-    [[1, 1, 0, 0], [0, 1, 1, 1], [1, 0, 0, 1], [1, 1, 1, 0], [1, 1, 1, 1], [1, 1, 0, 0], [0, 1, 0, 1], [1, 1, 1, 0], [0, 1, 1, 1], [1, 0, 1, 1]],
-    [[0, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 1], [1, 1, 1, 0], [0, 1, 1, 1], [1, 1, 0, 0], [1, 1, 1, 1], [0, 1, 0, 0], [1, 1, 0, 1], [0, 0, 1, 1]],
-    [[1, 1, 1, 0], [0, 1, 0, 1], [1, 0, 0, 0], [1, 1, 1, 0], [1, 1, 0, 1], [0, 1, 1, 1], [1, 0, 0, 1], [0, 1, 0, 0], [1, 1, 0, 1], [1, 0, 1, 1]]
+    [[0, 1, 1, 0], [0, 1, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1], [0, 1, 0, 1], [0, 1, 1, 1], [0, 1, 0, 1]],
+    [[1, 1, 0, 0], [0, 1, 1, 1], [1, 0, 0, 1], [1, 1, 1, 0], [0, 1, 0, 1], [1, 1, 1, 1], [0, 1, 0, 1]],
+    [[0, 1, 1, 0], [1, 1, 0, 1], [0, 0, 1, 0], [1, 1, 1, 1], [1, 0, 1, 1], [0, 1, 0, 0], [1, 0, 1, 1]],
+    [[1, 1, 0, 0], [0, 1, 1, 1], [1, 0, 1, 1], [0, 1, 1, 1], [1, 1, 1, 0], [1, 1, 0, 1], [0, 1, 1, 0]],
+    [[0, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 1], [1, 1, 1, 0], [0, 1, 1, 1], [1, 0, 0, 1], [1, 1, 0, 1]],
+    [[1, 1, 0, 0], [0, 1, 1, 1], [1, 1, 0, 1], [0, 1, 1, 1], [1, 0, 1, 1], [1, 1, 1, 0], [1, 1, 0, 1]],
+    [[0, 1, 1, 0], [1, 1, 1, 1], [1, 0, 0, 1], [1, 1, 1, 0], [0, 1, 1, 1], [1, 1, 0, 0], [1, 1, 1, 1]],
   ];
+  
+  //const userPosition = useState([0, 0]); // Starting at top-left for example
+  const winningCell = [4, 3]; // Bottom-right corner
+  
+  
 
   const maze = useMemo(() => fixedMaze, [gameId]);
   const maxColIndex = maze[0].length - 1;
@@ -37,7 +38,7 @@ export default function MazeGame() {
   }, [maze]);
 
   // Define the winning cell
-  const winningCell = [4, 5]; // Change this to any valid cell as the winning position
+  //const winningCell = [4, 5]; // Change this to any valid cell as the winning position
 
   // Move player with delay
   const movePlayer = (gamma, beta) => {
@@ -52,27 +53,27 @@ export default function MazeGame() {
     let newPosition = [...userPosition];
   
     // Move right while gamma indicates right movement
-    while (gamma > 40) {
+    while (gamma > 5) {
       newPosition[1] = Math.min(newPosition[1] + 1, maze[0].length - 1); // Move right
-      gamma -= 40; // Decrease gamma to eventually exit the loop
+      gamma -= 5; // Decrease gamma to eventually exit the loop
     }
   
     // Move left while gamma indicates left movement
-    while (gamma < -40) {
+    while (gamma < -5) {
       newPosition[1] = Math.max(newPosition[1] - 1, 0); // Move left
-      gamma += 40; // Increase gamma to eventually exit the loop
+      gamma += 5; // Increase gamma to eventually exit the loop
     }
   
     // Move down while beta indicates downward movement
-    while (beta > 40) {
+    while (beta > 5) {
       newPosition[0] = Math.min(newPosition[0] + 1, maze.length - 1); // Move down
-      beta -= 40; // Decrease beta to eventually exit the loop
+      beta -= 5; // Decrease beta to eventually exit the loop
     }
   
     // Move up while beta indicates upward movement
-    while (beta < -40) {
+    while (beta < -5) {
       newPosition[0] = Math.max(newPosition[0] - 1, 0); // Move up
-      beta += 40; // Increase beta to eventually exit the loop
+      beta += 5; // Increase beta to eventually exit the loop
     }
   
     // Only update user position if it's within bounds
@@ -200,19 +201,8 @@ export default function MazeGame() {
         </div>
       )}
 
-      <button className="maze-btn" onClick={() => setCheatMode(!cheatMode)}>
-        {cheatMode ? "Disable Cheat Mode" : "Enable Cheat Mode"}
-      </button>
       
       <button className="maze-btn" onClick={handleConfirm}>Confirm</button>
-
-      {cheatMode && (
-        <div className="hint-message">
-          Hint: The winning cell is at row {winningCell[0]}, column {winningCell[1]}, and the length of the column is {maxColIndex}
-  
-        </div>
-        
-      )}
 
       {status === "notAllowed" && attempts >= 3 && (
         <div className="attempts-message">
