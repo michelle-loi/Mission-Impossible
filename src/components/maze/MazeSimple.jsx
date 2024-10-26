@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import './Maze.scss';
 import Quaternion from 'quaternion';
+import ControlBtn from '../controlbtn/ControlBtn.jsx';
 
 const orientations = [
   ['landscape left', 'landscape right'], // device x-axis points up/down
@@ -248,25 +249,39 @@ export default function MazeGame({ setPuzzleValue }) {
   };
 
   return (
-    <div className="maze-container">
-      <div className="maze">
-        {maze.map((row, rowIndex) =>
-          row.map((cell, colIndex) => (
-            <div
-              key={`${rowIndex}-${colIndex}`}
-              className={`cell ${rowIndex === selectedCellX && colIndex === selectedCellY ? 'selected' : ''}`}
-            >
-              {userPosition[0] === rowIndex && userPosition[1] === colIndex && (
-                <div className="player"></div>
-              )}
-            </div>
-          ))
-        )}
-      </div>
+    <div className="maze-bg">
+      <div className="maze-container">
+        <div className="maze">
+          {maze.map((row, rowIndex) =>
+            row.map((cell, colIndex) => (
+              <div
+                key={`${rowIndex}-${colIndex}`}
+                className={`cell ${rowIndex === selectedCellX && colIndex === selectedCellY ? 'selected' : ''}`}
+              >
+                {userPosition[0] === rowIndex &&
+                  userPosition[1] === colIndex && (
+                    <div className="player"></div>
+                  )}
+              </div>
+            ))
+          )}
+        </div>
+        <ControlBtn
+          text={`${!targetLocked ? 'Select Target' : 'Release Target'}`}
+          handleClick={handleConfirm}
+        />
 
-      <button className="maze-btn" onClick={handleConfirm}>
-        {!targetLocked ? 'Set Target' : 'Release Target'}
-      </button>
+        <div className="maze-info">
+          <div className="maze-angles">
+            {`alpha = ${angles.alpha?.toFixed(1) || '0.0'}°,
+             beta = ${angles.beta?.toFixed(1) || '0.0'}°,
+              gamma = ${angles.gamma?.toFixed(1) || '0.0'}°`}
+          </div>
+          <div className="maze-orientation">
+            orientation = {orientation || 'N/A'}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
