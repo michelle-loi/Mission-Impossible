@@ -143,7 +143,7 @@ export default function MazeGame({ setPuzzleValue }) {
       }
     };
 
-    const intervalId = setInterval(movePlayer, 100); // Move every 100 ms
+    const intervalId = setInterval(movePlayer, 200); // Move every 200 ms
     return () => clearInterval(intervalId);
   }, [orientation, userPosition, maze]);
 
