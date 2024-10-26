@@ -4,7 +4,7 @@
 
   color: #fafafa;
   gap: 1rem;
-  border: 1px solid #333333;
+  //border: 1px solid #333333;
   padding: 2rem;
 
   @media screen and (orientation: portrait) {
@@ -13,9 +13,15 @@
 }
 
 .toggle__label {
-  font-size: 1.25rem;
+  font-size: 1.75rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  input[type='radio']:checked {
+    accent-color: #ff0000;
+    filter: drop-shadow(0 0 5px #ff0000) drop-shadow(0 0 10px #ff0000);
+    transform: scale(1.5);
+  }
 }
