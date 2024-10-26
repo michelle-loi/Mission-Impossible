@@ -12,6 +12,7 @@ import ControlBtn from '../../components/controlbtn/ControlBtn.jsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { playAudio } from '../../utils/useAudio.jsx';
 import clickSFX from '../../assets/click.mp3';
+import explosionSFX from '../../assets/explosion.mp3';
 
 const Passcode = () => {
   const [side, setSide] = useState('front');
@@ -73,13 +74,28 @@ const Passcode = () => {
     exit: { opacity: 0, y: 100 }, // animate below again
   };
 
+  const [overlay, setOverlay] = useState(false);
+  const OverlayVariants = {
+    initial: { opacity: 0 },
+    in: { opacity: 1 },
+    exit: { opacity: 0 },
+  };
+
   const checkPasscode = () => {
     if (Object.values(correctPuzzleValues).every((value) => value === true)) {
       navigate('/homescreen');
     } else {
       // TODO: make red overlay
-      alert('fails');
-      alert(JSON.stringify(correctPuzzleValues));
+      // alert('fails');
+      // alert(JSON.stringify(correctPuzzleValues));
+
+      setOverlay(true);
+      playAudio(new Audio(explosionSFX), 1, 0);
+
+      // 5 seconds set it false again
+      setTimeout(() => {
+        setOverlay(false);
+      }, 4000);
     }
     playAudio(new Audio(clickSFX), 1, 0);
   };
@@ -91,6 +107,19 @@ const Passcode = () => {
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
+      <AnimatePresence>
+        {overlay && (
+          <motion.div
+            className="pass_error_overlay"
+            key={'pass-overlay-unique-key'}
+            initial="initial"
+            animate="in"
+            exit="exit"
+            variants={OverlayVariants}
+            transition={{ duration: 0.4 }}
+          ></motion.div>
+        )}
+      </AnimatePresence>
       <div className="pass_bomb_wrapper">
         <Bomb
           side={side}
