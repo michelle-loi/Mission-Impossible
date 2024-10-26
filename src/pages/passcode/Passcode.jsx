@@ -13,6 +13,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { playAudio } from '../../utils/useAudio.jsx';
 import clickSFX from '../../assets/click.mp3';
 import explosionSFX from '../../assets/explosion.mp3';
+import MazeGame from '../../components/maze/Maze.jsx';
 
 const Passcode = () => {
   const [side, setSide] = useState('front');
@@ -21,6 +22,7 @@ const Passcode = () => {
   const defaultPuzzlesState = {
     compassWires: false,
     lightSensor: false,
+    mazeGame: false,
     cutWire: false,
     timer: false,
   };
@@ -213,8 +215,29 @@ const Passcode = () => {
         />
       </Modal>
 
-      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 4}>
-        <div>Puzzle 4</div>
+      <Modal 
+        closeModal={() => {
+          clearPuzzle();
+          setPuzzlesDone({
+            ...puzzlesDone,
+            mazeGame: true,
+          });
+        }}
+        isVisible={puzzleNum === 4}>
+        <div>
+          <MazeGame 
+            setPuzzleValue={(value) => {
+              setCorrectPuzzleValues({
+                ...correctPuzzleValues,
+                mazeGame:
+                  (value.x === 2 && value.y === 3)
+                  || (value.x == 2 && value.y == 4)
+                  || (value.x == 3 && value.y == 3)
+                  || (value.x == 3 && value.y == 4)
+              });
+            }}>
+          </MazeGame>
+        </div>
       </Modal>
 
       <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 5}>

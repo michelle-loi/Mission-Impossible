@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import "./Maze.scss";
 
-export default function MazeGame() {
+export default function MazeGame({setPuzzleValue}) {
   const [gameId, setGameId] = useState(1);
   const [status, setStatus] = useState("playing");
   const [userPosition, setUserPosition] = useState([0, 3]);
@@ -144,19 +144,25 @@ export default function MazeGame() {
   const handleConfirm = () => {
     setSelectedCellX(userPosition[0]);
     setSelectedCellY(userPosition[1]);
-    if (userPosition[0] === winningCell[0] && userPosition[1] === winningCell[1]) {
-      console.log("You've won!");
-      setStatus("won");
-    } else {
-      if (attempts < 2) {
-        setAttempts((prev) => prev + 1); // Increment attempts
-        setStatus("select")
-        console.log(`Incorrect! You have ${2 - attempts} attempts left.`);
-      } else {
-        console.log("Not allowed!");
-        setStatus("notAllowed"); // Set a status for "not allowed"
-      }
-    }
+
+    setPuzzleValue({
+      x: userPosition[0],
+      y: userPosition[1]
+    });
+
+    // if (userPosition[0] === winningCell[0] && userPosition[1] === winningCell[1]) {
+    //   console.log("You've won!");
+    //   setStatus("won");
+    // } else {
+    //   if (attempts < 2) {
+    //     setAttempts((prev) => prev + 1); // Increment attempts
+    //     setStatus("select")
+    //     console.log(`Incorrect! You have ${2 - attempts} attempts left.`);
+    //   } else {
+    //     console.log("Not allowed!");
+    //     setStatus("notAllowed"); // Set a status for "not allowed"
+    //   }
+    // }
   };
 
   return (
