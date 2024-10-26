@@ -155,7 +155,7 @@ const Passcode = () => {
           setPuzzleValue={(value) => {
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
-              timer: value.timeLeft > 0 && value.passcode.slice(-4) === '6969',
+              timer: value.timeLeft > 0 && value.passcode.slice(-4) === '8521',
             });
           }}
         />
