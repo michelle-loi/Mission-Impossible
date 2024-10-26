@@ -13,7 +13,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { playAudio } from '../../utils/useAudio.jsx';
 import clickSFX from '../../assets/click.mp3';
 import explosionSFX from '../../assets/explosion.mp3';
-import MazeGame from '../../components/maze/Maze.jsx';
+import MazeGame from '../../components/maze/MazeSimple.jsx';
 import Number from '../../components/number/Number.jsx';
 
 const Passcode = () => {
@@ -217,7 +217,7 @@ const Passcode = () => {
         />
       </Modal>
 
-      <Modal 
+      <Modal
         closeModal={() => {
           clearPuzzle();
           setPuzzlesDone({
@@ -225,22 +225,23 @@ const Passcode = () => {
             mazeGame: true,
           });
         }}
-        isVisible={puzzleNum === 4}>
-        <MazeGame 
+        isVisible={puzzleNum === 4}
+      >
+        <MazeGame
           setPuzzleValue={(value) => {
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
               mazeGame:
-                (value.x === 2 && value.y === 3)
-                || (value.x == 2 && value.y == 4)
-                || (value.x == 3 && value.y == 3)
-                || (value.x == 3 && value.y == 4)
+                (value.x === 2 && value.y === 3) ||
+                (value.x === 2 && value.y === 4) ||
+                (value.x === 3 && value.y === 3) ||
+                (value.x === 3 && value.y === 4),
             });
-          }}>
-        </MazeGame>
+          }}
+        ></MazeGame>
       </Modal>
 
-      <Modal 
+      <Modal
         closeModal={() => {
           clearPuzzle();
           setPuzzlesDone({
@@ -248,15 +249,16 @@ const Passcode = () => {
             number: true,
           });
         }}
-        isVisible={puzzleNum === 5}>
+        isVisible={puzzleNum === 5}
+      >
         <Number
           setPuzzleValue={(value) => {
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
-              number: (value.prediction >= 0.9 && value.number === 2)
+              number: value.prediction >= 0.9 && value.number === 2,
             });
           }}
-          ></Number>
+        ></Number>
       </Modal>
 
       <Modal
