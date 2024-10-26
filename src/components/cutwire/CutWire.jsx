@@ -114,9 +114,16 @@ function sketch(p5) {
       return { y: wireY, height: height };
     }
 
+    p5.drawingContext.shadowBlur = 600;
+    p5.drawingContext.shadowColor = p5.color(255, 255, 150); // Glow color
+
     // camera
+    p5.noStroke();
     p5.fill('white');
     p5.ellipse(cx + 10, cy, 200, 200);
+    p5.stroke('black');
+
+    p5.drawingContext.shadowBlur = 0;
 
     // the wire
     p5.fill('blue');
