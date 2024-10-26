@@ -253,6 +253,8 @@ const Passcode = () => {
               ...correctPuzzleValues,
               number: value.prediction >= 0.9 && value.number === 2,
             });
+
+            alert(JSON.stringify(value));
           }}
         ></Number>
       </Modal>

@@ -15,9 +15,11 @@
 }
 
 .webcam-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 1rem 4rem;
+}
+
+.webcam-video {
+  border: 0.5rem solid black;
 }
 
 // https://css-loaders.com/dots/
