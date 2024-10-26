@@ -91,14 +91,16 @@ const Passcode = () => {
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      <Bomb
-        side={side}
-        setPuzzleNum={setPuzzleNum}
-        setDontHoldBomb={setDontHoldBomb}
-        setShowToggles={setShowToggles}
-        dontHoldBomb={dontHoldBomb}
-        puzzlesDone={puzzlesDone}
-      />
+      <div className="pass_bomb_wrapper">
+        <Bomb
+          side={side}
+          setPuzzleNum={setPuzzleNum}
+          setDontHoldBomb={setDontHoldBomb}
+          setShowToggles={setShowToggles}
+          dontHoldBomb={dontHoldBomb}
+          puzzlesDone={puzzlesDone}
+        />
+      </div>
 
       {/* Puzzles */}
       <Modal
