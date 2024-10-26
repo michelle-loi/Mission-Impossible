@@ -91,7 +91,9 @@ const Passcode = () => {
     } else {
       // TODO: make red overlay
       // alert('fails');
-      alert(JSON.stringify(correctPuzzleValues));
+      if(import.meta.env.DEV) {
+        alert(JSON.stringify(correctPuzzleValues));
+      }
 
       setOverlay(true);
       playAudio(new Audio(explosionSFX), 1, 0);
@@ -254,7 +256,9 @@ const Passcode = () => {
               number: value.prediction >= 0.9 && value.number === 2,
             });
 
-            alert(JSON.stringify(value));
+            if(import.meta.env.DEV) {
+              alert(JSON.stringify(value));
+            }
           }}
         ></Number>
       </Modal>
@@ -282,7 +286,7 @@ const Passcode = () => {
 
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
-              lightSensor: isCorrect,
+              lightSensor: true,
             });
           }}
         />
