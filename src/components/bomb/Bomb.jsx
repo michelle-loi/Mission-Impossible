@@ -131,7 +131,7 @@ const Bomb = ({
                 draggable={false}
               />
             </button>
-            <Light done={puzzlesDone.mazeGame}/>
+            <Light done={puzzlesDone.mazeGame} />
           </div>
           <div className="bomb__face bomb__face--top">
             <img src={bombTop} alt="" className="bomb__img" draggable={false} />
@@ -143,7 +143,7 @@ const Bomb = ({
                 draggable={false}
               />
             </button>
-            <Light />
+            <Light done={puzzlesDone.number} />
           </div>
           <div className="bomb__face bomb__face--bottom">
             <img

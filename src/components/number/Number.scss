@@ -1,78 +1,42 @@
-.body {
-    font-family: var("HK Grotesk");
-    //background-color: white; /* Set background color to white */
-    display: flex; /* Center body content */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    height: 100vh; /* Full viewport height */
-    margin: 0; /* Remove default margin */
-    overflow: hidden; /* Prevent scrolling */
+.number-bg {
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5) url('../../assets/blueprint.jpg');
+  background-blend-mode: darken;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
-#number-container {
-    display: flex;
-    flex-direction: column; /* Stack children vertically */
-    align-items: center; /* Center children horizontally */
-    justify-content: space-between; /* Space children evenly */
-    height: 100vh; /* Set a height to fit the viewport */
-    width: 100vw; /* Set a width to fit the viewport */
-    padding: 15px; /* Padding inside the container */
-    background-color: #f9f9f9; /* Background color */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
-    text-align: center; /* Center text */
+.number-container {
+  margin-bottom: 15%;
 }
 
 .webcam-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%; /* Full width */
-    height: 40%; /* Use a percentage for better responsiveness */
-    border: 2px solid #333;
-    border-radius: 10px;
-   // background-color: #f7f7f7; /* Background color */
-  //  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Shadow */
-    margin-bottom: 2%; /* Reduced margin below */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#text-container {
-    text-align: center; /* Center text */
-    font-size: 16px; /* Font size */
-    font-weight: bold; /* Bold font */
-    color: #ff4d4d; /* Text color */
-    margin: 0; /* Reduced space above and below */
+// https://css-loaders.com/dots/
+.number-btn {
+  margin: 1rem;
+  box-shadow: 3px 4px 0 0 #7a7a7a;
+  background: #606060 linear-gradient(to bottom, #fcfcfc 5%, #f6f5f5 100%);
+  border-radius: 10px;
+  display: inline-block;
+  cursor: pointer;
+  color: black;
+  padding: 25px 25px;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #262626;
+  z-index: 10;
+  font-size: 1.5rem;
+  -webkit-tap-highlight-color: transparent;
 }
 
-
-#label-container {
-    display: flex;
-    flex-direction: column; /* Stack labels vertically */
-    align-items: center; /* Center align labels */
-    width: 100%; /* Full width */
-    text-align: center; /* Center text */
-    color: red; /* Text color */
-    font-size: 14px; /* Font size */
-    font-weight: bold; /* Bold font */
-    margin: 0;
-}
-
-
-#response-container {
-    text-align: center; /* Center text */
-    font-size: 16px; /* Font size */
-    font-weight: bold; /* Bold font */
-    color: #ff4d4d; /* Text color */
-    margin: 0; /* Reduced space above and below */
-}
-
-#number-btn {
-    margin-top: 2%; /* Reduced space above button */
-    padding: 10px 20px; /* Padding inside button */
-    font-size: 1rem; /* Font size */
-    background-color: black; /* Button color */
-    color: white; /* Text color */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Change cursor to pointer */
+.number-btn:hover {
+  background: #c0bfbf linear-gradient(to bottom, #c0bfbf 5%, #f1f0f0 100%);
 }
