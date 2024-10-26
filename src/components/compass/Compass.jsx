@@ -63,7 +63,7 @@ const Compass = ({ heading = 0, setHeading, pendingResistor }) => {
           );
         }
       } else {
-        alert('Compass heading may not be precise.');
+        alert('Compass heading may not be precise');
       }
     };
 
@@ -74,10 +74,7 @@ const Compass = ({ heading = 0, setHeading, pendingResistor }) => {
           .then((response) => {
             if (response === 'granted') {
               setPermissionGranted(true);
-              window.addEventListener(
-                'deviceorientation',
-                handleCompass
-              );
+              window.addEventListener('deviceorientation', handleCompass);
             } else {
               setPermissionGranted(false);
               alert('Permission not granted. You cannot use the application.');
@@ -95,7 +92,7 @@ const Compass = ({ heading = 0, setHeading, pendingResistor }) => {
 
     // cleanup on component unmount
     return () => {
-      if(isIOS) {
+      if (isIOS) {
         window.removeEventListener('deviceorientation', handleCompass);
       } else {
         window.removeEventListener('deviceorientationabsolute', handleCompass);

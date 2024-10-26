@@ -141,3 +141,9 @@
     --bomb-width: 100vh;
   }
 }
+
+.bomb__controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
