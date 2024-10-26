@@ -2,6 +2,9 @@ import { useState, useMemo, useEffect } from 'react';
 import './Maze.scss';
 import Quaternion from 'quaternion';
 import ControlBtn from '../controlbtn/ControlBtn.jsx';
+import { playAudio } from '../../utils/useAudio.jsx';
+import clickSFX from '../../assets/click.mp3';
+import blipSFX from '../../assets/retro-blip-2.mp3';
 
 const orientations = [
   ['landscape left', 'landscape right'], // device x-axis points up/down
@@ -132,15 +135,21 @@ export default function MazeGame({ setPuzzleValue }) {
           break;
       }
 
+      const isSamePosition =
+        userPosition.length === newPosition.length &&
+        userPosition.every((value, index) => value === newPosition[index]);
+
       // Check if the new position is valid (not a wall)
       if (
         newPosition[0] >= 0 &&
         newPosition[0] < maze.length &&
         newPosition[1] >= 0 &&
         newPosition[1] < maze[0].length &&
-        maze[newPosition[0]][newPosition[1]] !== 1 // Check if the cell is not a wall
+        maze[newPosition[0]][newPosition[1]] !== 1 && // Check if the cell is not a wall
+        !isSamePosition
       ) {
         setUserPosition(newPosition);
+        playAudio(new Audio(blipSFX), 1, 0);
       }
     };
 
@@ -246,6 +255,7 @@ export default function MazeGame({ setPuzzleValue }) {
       setSelectedCellX(null);
       setSelectedCellY(null);
     }
+    playAudio(new Audio(clickSFX), 1, 0);
   };
 
   return (
@@ -273,12 +283,12 @@ export default function MazeGame({ setPuzzleValue }) {
 
         <div className="maze-info">
           <div className="maze-angles">
-            {`alpha = ${angles.alpha?.toFixed(1) || '0.0'}°,
-             beta = ${angles.beta?.toFixed(1) || '0.0'}°,
-              gamma = ${angles.gamma?.toFixed(1) || '0.0'}°`}
+            {`α = ${angles.alpha?.toFixed(1) || '0.0'}°,
+             β = ${angles.beta?.toFixed(1) || '0.0'}°,
+              γ = ${angles.gamma?.toFixed(1) || '0.0'}°`}
           </div>
           <div className="maze-orientation">
-            orientation = {orientation || 'N/A'}
+            ORIENTATION = {orientation.toUpperCase() || 'N/A'}
           </div>
         </div>
       </div>

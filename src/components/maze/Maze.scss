@@ -38,6 +38,7 @@
   box-shadow: 0 0 15px 0 rgba(255, 255, 255, 0.9);
   border: 1px solid #333;
   position: relative;
+  transition: background-color 0.5s ease-in-out;
 }
 
 .player {
