@@ -286,7 +286,7 @@ const Passcode = () => {
 
             setCorrectPuzzleValues({
               ...correctPuzzleValues,
-              lightSensor: true,
+              lightSensor: isCorrect,
             });
           }}
         />
