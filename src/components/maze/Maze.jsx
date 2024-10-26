@@ -10,6 +10,7 @@ export default function MazeGame({setPuzzleValue}) {
   const [selectedCellX, setSelectedCellX] = useState(null); // Track selected cell
   const [selectedCellY, setSelectedCellY] = useState(null); // Track selected cell
   const moveDelay = 10000000000; // Delay in milliseconds
+  const [targetLocked, setTargetLocked] = useState(false);
 
   const fixedMaze = [
     [[0, 1, 1, 0], [0, 1, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1], [0, 1, 0, 1], [0, 1, 1, 1], [0, 1, 0, 1]],
@@ -43,7 +44,7 @@ export default function MazeGame({setPuzzleValue}) {
   // Move player with delay
   const movePlayer = (gamma, beta) => {
     const currentTime = Date.now();
-  
+
     // Prevent rapid movement
     if (currentTime - lastMoveTime < moveDelay) {
       return;
@@ -89,17 +90,21 @@ export default function MazeGame({setPuzzleValue}) {
     }
   };
 
+  let permission;
+
   // Handle device motion
   useEffect(() => {
     const handleDeviceMotion = (event) => {
       const { beta, gamma } = event; // Get beta (x-axis) and gamma (z-axis)
-      movePlayer(gamma, beta);
+      if(!targetLocked) {
+        movePlayer(gamma, beta);
+      }
     };
 
     const requestPermission = async () => {
       if (DeviceOrientationEvent.requestPermission) {
         try {
-          const permission = await DeviceOrientationEvent.requestPermission();
+          permission = await DeviceOrientationEvent.requestPermission();
           if (permission === "granted") {
             window.addEventListener("deviceorientation", handleDeviceMotion);
           } else {
@@ -117,7 +122,7 @@ export default function MazeGame({setPuzzleValue}) {
     return () => {
       window.removeEventListener("deviceorientation", handleDeviceMotion);
     };
-  }, []);
+  }, [permission]);
 
   const restartGame = () => {
     setGameId((prevId) => prevId + 1);
@@ -142,6 +147,7 @@ export default function MazeGame({setPuzzleValue}) {
   
 
   const handleConfirm = () => {
+    setTargetLocked(!targetLocked);
     setSelectedCellX(userPosition[0]);
     setSelectedCellY(userPosition[1]);
 
@@ -208,7 +214,7 @@ export default function MazeGame({setPuzzleValue}) {
       )}
 
       
-      <button className="maze-btn" onClick={handleConfirm}>Confirm</button>
+      <button className="maze-btn" onClick={handleConfirm}>{!targetLocked? 'Set Target' : 'Release Target'}</button>
 
       {status === "notAllowed" && attempts >= 3 && (
         <div className="attempts-message">

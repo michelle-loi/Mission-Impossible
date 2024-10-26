@@ -14,6 +14,7 @@ import { playAudio } from '../../utils/useAudio.jsx';
 import clickSFX from '../../assets/click.mp3';
 import explosionSFX from '../../assets/explosion.mp3';
 import MazeGame from '../../components/maze/Maze.jsx';
+import Number from '../../components/number/Number.jsx';
 
 const Passcode = () => {
   const [side, setSide] = useState('front');
@@ -24,6 +25,7 @@ const Passcode = () => {
     lightSensor: false,
     mazeGame: false,
     cutWire: false,
+    number: false,
     timer: false,
   };
   const [puzzlesDone, setPuzzlesDone] = useState({ ...defaultPuzzlesState });
@@ -224,24 +226,37 @@ const Passcode = () => {
           });
         }}
         isVisible={puzzleNum === 4}>
-        <div>
-          <MazeGame 
-            setPuzzleValue={(value) => {
-              setCorrectPuzzleValues({
-                ...correctPuzzleValues,
-                mazeGame:
-                  (value.x === 2 && value.y === 3)
-                  || (value.x == 2 && value.y == 4)
-                  || (value.x == 3 && value.y == 3)
-                  || (value.x == 3 && value.y == 4)
-              });
-            }}>
-          </MazeGame>
-        </div>
+        <MazeGame 
+          setPuzzleValue={(value) => {
+            setCorrectPuzzleValues({
+              ...correctPuzzleValues,
+              mazeGame:
+                (value.x === 2 && value.y === 3)
+                || (value.x == 2 && value.y == 4)
+                || (value.x == 3 && value.y == 3)
+                || (value.x == 3 && value.y == 4)
+            });
+          }}>
+        </MazeGame>
       </Modal>
 
-      <Modal closeModal={clearPuzzle} isVisible={puzzleNum === 5}>
-        <div>Puzzle 5</div>
+      <Modal 
+        closeModal={() => {
+          clearPuzzle();
+          setPuzzlesDone({
+            ...puzzlesDone,
+            number: true,
+          });
+        }}
+        isVisible={puzzleNum === 5}>
+        <Number
+          setPuzzleValue={(value) => {
+            setCorrectPuzzleValues({
+              ...correctPuzzleValues,
+              number: (value.prediction >= 0.9 && value.number === 2)
+            });
+          }}
+          ></Number>
       </Modal>
 
       <Modal

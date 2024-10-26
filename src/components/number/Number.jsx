@@ -4,7 +4,7 @@ import "./Number.scss";
 
 const URL = "https://teachablemachine.withgoogle.com/models/DJKKoSS6b/";
 
-const Number = () => {
+const Number = ({setPuzzleValue}) => {
   const [isIos, setIsIos] = useState(false);
   const labelContainerRef = useRef(null);
   const webcamContainerRef = useRef(null);
@@ -100,7 +100,12 @@ const Number = () => {
       labelContainerRef.current.childNodes[i].innerHTML = classPrediction;
     }
 
-    checkPrediction(highestProbability.toFixed(2), highestClassNumber);
+    // checkPrediction(highestProbability.toFixed(2), highestClassNumber);
+    
+    setPuzzleValue({
+      prediction: highestProbability.toFixed(2),
+      number: highestClassNumber
+    });
   };
 
   const checkPrediction = (prediction, number) => {
@@ -113,7 +118,7 @@ const Number = () => {
 
   return (
     <div id="number-container">
-      <div id="text-container">Click the picture of the correct answer between 1-10, otherwise you die!</div>
+      {/* <div id="text-container">Click the picture of the correct answer between 1-10, otherwise you die!</div> */}
       <div id="webcam-container" ref={webcamContainerRef}></div>
       <button id="number-btn" ref={captureButtonRef}>Capture</button>
       <div id="label-container" ref={labelContainerRef}></div>
