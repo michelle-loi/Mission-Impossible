@@ -92,6 +92,9 @@ const Passcode = () => {
       setOverlay(true);
       playAudio(new Audio(explosionSFX), 1, 0);
 
+      setPuzzlesDone({ ...defaultPuzzlesState });
+      setCorrectPuzzleValues({ ...defaultPuzzlesState });
+
       // 5 seconds set it false again
       setTimeout(() => {
         setOverlay(false);
