@@ -5,7 +5,7 @@ import Webcam from 'react-webcam';
 import { playAudio } from '../../utils/useAudio.jsx';
 import cameraClickSFX from '../../assets/camera.mp3';
 
-const URL = 'https://teachablemachine.withgoogle.com/models/DJKKoSS6b/';
+const URL = 'https://teachablemachine.withgoogle.com/models/HljmOR4Ye/';
 
 const Number = ({ setPuzzleValue }) => {
   const webcamRef = useRef(null);
